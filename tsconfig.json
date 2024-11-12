@@ -9,7 +9,8 @@
         "src/services/*"
       ]
     },
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts",
