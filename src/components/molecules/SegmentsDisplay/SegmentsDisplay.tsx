@@ -11,7 +11,7 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	};
 	return (
 		<>
-			<Display count={4} value={value} charMap={charMap} />
+			<Display count={4} value={value} charMap={charMap} height={100} />
 		</>
 	);
 };
