@@ -1,3 +1,9 @@
+import { SegmentsDisplay } from "@components/molecules/SegmentsDisplay/SegmentsDisplay";
+
 export const Metronome = () => {
-    return <>Hello, I am metronome</>
-}
+	return (
+		<>
+			<SegmentsDisplay value={"_   "} />
+		</>
+	);
+};
