@@ -1,21 +1,17 @@
 import { useState } from 'react'
-
 import './App.css'
-import {Metronome} from "./components/organisms/Metronome/Metronome.tsx";
+import { Metronome } from "@components/organisms/Metronome/Metronome";
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1>Metronome</h1>
+      <h1>Metronome6</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
       <Metronome/>
     </>
