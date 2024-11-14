@@ -1,22 +1,29 @@
 import { SegmentsDisplay } from "@components/molecules/SegmentsDisplay/SegmentsDisplay";
-import { Knob } from "react-rotary-knob";
-import React, { useState } from "react";
+import React from "react";
+import { ButtonKnob } from "@components/molecules/ButtonKnob/ButtonKnob";
 
 export const Metronome = () => {
-	const [knobValue, setKnobValue] = useState<number>(0);
+	const handleKnobOnChange = (steps: number) => {
+		console.log(steps);
+	};
 
-	const handleChange = (knobValue: number) => {
-		setKnobValue(knobValue);
+	const handleKnobClick = () => {
+		console.log("Clicked");
 	};
 
 	return (
 		<>
-			<SegmentsDisplay value={"_   "} />
-			<>
-				<h2>KnobValue: </h2>
-				<>{knobValue}</>
-			</>
-			<Knob step={1} onChange={handleChange} preciseMode={false} />
+			<SegmentsDisplay value={"a1b2"} />
+			{/*<>*/}
+			{/*<h2>KnobValue: </h2>*/}
+			{/*<>{knobValue}</>*/}
+			{/*<h2>Direction </h2>*/}
+			{/*<>{isDirectionClockwise ? "Clockwise" : "Counter Clockwise"}</>*/}
+			{/*</>*/}
+			<ButtonKnob
+				onChange={handleKnobOnChange}
+				onClick={handleKnobClick}
+			/>
 		</>
 	);
 };
