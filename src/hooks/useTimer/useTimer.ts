@@ -9,19 +9,18 @@ export const useTimer = (props: IUseTimerProps) => {
 	const timeIntervalId = useRef<NodeJS.Timeout | null>(null);
 
 	const tick = () => {
-		setCurrentStepIndex((prevStepIndex) => {
-			const nextStepIndex = (prevStepIndex + 1) % pattern.length;
-			const step = pattern[nextStepIndex];
-			// console.log("prev: " + prevStepIndex);
+		setCurrentStepIndex((curStepIndex) => {
+			const step = pattern[curStepIndex];
 			onTickHandlers &&
 				onTickHandlers.forEach((handler) => handler(step));
-			return nextStepIndex;
+			return (curStepIndex + 1) % pattern.length;
 		});
 	};
 
 	const startTimer = () => {
 		const timeInterval = 60000 / tempo;
 		setCurrentStepIndex(INITIAL_STEP_INDEX);
+		tick();
 
 		timeIntervalId.current = setInterval(tick, timeInterval);
 	};

@@ -15,4 +15,4 @@ npm run dev
 ## ToDo
 - [ ] Timer Fix initial step
 - [ ] Metronome Component: export consts
-- [ ] Blink LED
+- [x] Blink LED
