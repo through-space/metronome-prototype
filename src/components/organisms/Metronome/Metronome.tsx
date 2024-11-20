@@ -11,10 +11,13 @@ import {
 	MIN_TEMPO,
 } from "@components/organisms/Metronome/MetronomeConsts";
 import { useTimer } from "@hooks/useTimer/useTimer";
+import { LED } from "@components/atoms/LED/LED";
+import { EStep } from "@hooks/useTimer/useTimerInterfaces";
 
 export const Metronome = () => {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 	const [tempo, setTempo] = useState<number>(DEFAULT_TEMPO);
+	const [ledTrigger, setLedTrigger] = useState<boolean>(false);
 	const audioRef = useRef<HTMLAudioElement>(new Audio(DEFAULT_SOUND));
 
 	const handleKnobOnChange = (steps: number) => {
@@ -37,8 +40,13 @@ export const Metronome = () => {
 		}
 	};
 
-	const tickHandlersPrint = (step) => console.log("thisstep: " + step);
-	const playSound = async (step) => {
+	const blinkLED = (step: EStep) => {
+		setLedTrigger((prevTrigger) => !prevTrigger);
+	};
+
+	const tickHandlersPrint = (step: EStep) => console.log("thisstep: " + step);
+
+	const playSound = async (step: EStep) => {
 		audioRef.current.volume =
 			step in CLICK_VOLUMES_MAP
 				? CLICK_VOLUMES_MAP[step]
@@ -50,7 +58,7 @@ export const Metronome = () => {
 		pattern: DEFAULT_PATTERN,
 		isPlaying: isPlaying,
 		tempo: tempo,
-		onTickHandlers: [tickHandlersPrint, playSound],
+		onTickHandlers: [tickHandlersPrint, playSound, blinkLED],
 	});
 
 	return (
@@ -59,6 +67,7 @@ export const Metronome = () => {
 			<button onClick={() => setIsPlaying(!isPlaying)}>
 				{isPlaying ? "Stop" : "Start"}
 			</button>
+			<LED trigger={ledTrigger} delay={60} />
 			<ButtonKnob
 				onChange={handleKnobOnChange}
 				onClick={handleKnobClick}
