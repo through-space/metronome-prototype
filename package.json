@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "7-segment-display": "https://github.com/through-space/react-7-segment-display-wangwxxwgnaw.git",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-rotary-knob": "^3.0.3",
-    "styled-components": "^6.1.13"
+    "styled-components": "^6.1.13",
+    "7-segment-display": "https://github.com/through-space/react-7-segment-display.git"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
