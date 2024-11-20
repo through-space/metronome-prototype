@@ -2,17 +2,16 @@ import { SegmentsDisplay } from "@components/molecules/SegmentsDisplay/SegmentsD
 import React, { useRef, useState } from "react";
 import { ButtonKnob } from "@components/molecules/ButtonKnob/ButtonKnob";
 import {
-	CLICK_VOLUMES_MAP,
+	blinkLED,
 	DEFAULT_PATTERN,
 	DEFAULT_SOUND,
 	DEFAULT_TEMPO,
-	DEFAULT_VOLUME,
-	MAX_TEMPO,
-	MIN_TEMPO,
+	playSound,
+	tickHandlersPrint,
+	updateTempo,
 } from "@components/organisms/Metronome/MetronomeConsts";
 import { useTimer } from "@hooks/useTimer/useTimer";
 import { LED } from "@components/atoms/LED/LED";
-import { EStep } from "@hooks/useTimer/useTimerInterfaces";
 
 export const Metronome = () => {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -21,44 +20,22 @@ export const Metronome = () => {
 	const audioRef = useRef<HTMLAudioElement>(new Audio(DEFAULT_SOUND));
 
 	const handleKnobOnChange = (steps: number) => {
-		updateTempo(steps);
+		updateTempo(steps, setTempo);
 	};
 
 	const handleKnobClick = () => {
 		console.log("Clicked");
 	};
 
-	//TODO export to const
-	const updateTempo = (tempoIncrement: number) => {
-		const newTempo = tempo + tempoIncrement;
-		if (newTempo > MAX_TEMPO) {
-			setTempo(MAX_TEMPO);
-		} else if (newTempo < MIN_TEMPO) {
-			setTempo(MIN_TEMPO);
-		} else {
-			setTempo(newTempo);
-		}
-	};
-
-	const blinkLED = (step: EStep) => {
-		setLedTrigger((prevTrigger) => !prevTrigger);
-	};
-
-	const tickHandlersPrint = (step: EStep) => console.log("thisstep: " + step);
-
-	const playSound = async (step: EStep) => {
-		audioRef.current.volume =
-			step in CLICK_VOLUMES_MAP
-				? CLICK_VOLUMES_MAP[step]
-				: DEFAULT_VOLUME;
-		await audioRef.current.play();
-	};
-
 	useTimer({
 		pattern: DEFAULT_PATTERN,
 		isPlaying: isPlaying,
 		tempo: tempo,
-		onTickHandlers: [tickHandlersPrint, playSound, blinkLED],
+		onTickHandlers: [
+			// tickHandlersPrint,
+			(step) => playSound(step, audioRef),
+			(step) => blinkLED(setLedTrigger),
+		],
 	});
 
 	return (
