@@ -7,17 +7,18 @@ import {
 	DEFAULT_SOUND,
 	DEFAULT_TEMPO,
 	playSound,
-	tickHandlersPrint,
 	updateTempo,
 } from "@components/organisms/Metronome/MetronomeConsts";
 import { useTimer } from "@hooks/useTimer/useTimer";
 import { LED } from "@components/atoms/LED/LED";
+import { createMachine } from "xstate";
 
 export const Metronome = () => {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 	const [tempo, setTempo] = useState<number>(DEFAULT_TEMPO);
 	const [ledTrigger, setLedTrigger] = useState<boolean>(false);
 	const audioRef = useRef<HTMLAudioElement>(new Audio(DEFAULT_SOUND));
+	const [displayText, setDisplayText] = useState<boolean>(false);
 
 	const handleKnobOnChange = (steps: number) => {
 		updateTempo(steps, setTempo);
