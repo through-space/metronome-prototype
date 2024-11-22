@@ -1,47 +1,35 @@
 import { assign, createActor, createMachine } from "xstate";
-import { EStep } from "@hooks/useTimer/useTimerInterfaces";
-import { getUpdatedTempo } from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
-import { DEFAULT_TEMPO } from "@config/MetronomeConfig";
+import {
+	getUpdatedTempo,
+	INIT_METRONOME_STATE,
+} from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
+import {
+	EStateMachineState,
+	IKnobTurnEvent,
+	IMetronomeContext,
+	IStartStopButtonClick,
+} from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import { tempoState } from "@services/MetronomeStateMachine/states/tempoState";
 
-interface IKnobTurnEvent {
-	type: "knob.turn";
-	value: number;
-}
-
-interface IMetronomeContext {
-	tempo: number;
-	pattern: EStep[];
-	displayText: string;
-}
-
-const MetronomeStateMachine = createMachine({
+export const MetronomeStateMachine = createMachine({
+	initial: EStateMachineState.tempoState,
 	types: {
 		context: {} as IMetronomeContext,
-		events: {} as IKnobTurnEvent,
+		events: {} as IKnobTurnEvent | IStartStopButtonClick,
 	},
-	context: {
-		tempo: DEFAULT_TEMPO,
-		pattern: [EStep.HIGH, EStep.LOW, EStep.LOW, EStep.LOW],
-		displayText: DEFAULT_TEMPO.toString(),
-	},
-	states: {
-		tempoState: {
-			on: {
-				"knob.turn": {
-					actions: assign(({ context, event }) => {
-						const newTempo = getUpdatedTempo(
-							context.tempo,
-							event.value,
-						);
-						return {
-							tempo: newTempo,
-							displayText: newTempo.toString(), // Use the calculated tempo
-						};
-					}),
-				},
-			},
+	on: {
+		"startStopButton.click": {
+			actions: assign(({ context }) => {
+				return {
+					isPlaying: !context.isPlaying,
+				};
+			}),
 		},
+	},
+	context: INIT_METRONOME_STATE,
+	states: {
+		tempoState,
 	},
 });
 
-export const metronomeActor = createActor(MetronomeStateMachine).start();
+// export const metronomeActor = createActor(MetronomeStateMachine).start();

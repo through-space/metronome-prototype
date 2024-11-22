@@ -1,4 +1,13 @@
-import { MAX_TEMPO, MIN_TEMPO } from "@config/MetronomeConfig";
+import { DEFAULT_TEMPO, MAX_TEMPO, MIN_TEMPO } from "@config/MetronomeConfig";
+import { EStep } from "@hooks/useTimer/useTimerInterfaces";
+import { IMetronomeContext } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+
+export const INIT_METRONOME_STATE: IMetronomeContext = {
+	tempo: DEFAULT_TEMPO,
+	pattern: [EStep.HIGH, EStep.LOW, EStep.LOW, EStep.LOW],
+	displayText: DEFAULT_TEMPO.toString(),
+	isPlaying: false,
+};
 
 export const getUpdatedTempo = (
 	tempo: number,
