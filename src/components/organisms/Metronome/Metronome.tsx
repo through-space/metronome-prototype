@@ -3,34 +3,26 @@ import React, { useRef, useState } from "react";
 import { ButtonKnob } from "@components/molecules/ButtonKnob/ButtonKnob";
 import {
 	blinkLED,
-	DEFAULT_PATTERN,
-	DEFAULT_SOUND,
-	DEFAULT_TEMPO,
 	playSound,
-	tickHandlersPrint,
-	updateTempo,
 } from "@components/organisms/Metronome/MetronomeConsts";
 import { useTimer } from "@hooks/useTimer/useTimer";
 import { LED } from "@components/atoms/LED/LED";
+import { DEFAULT_SOUND } from "@config/MetronomeConfig";
+import { MetronomeStateMachine } from "@services/MetronomeStateMachine/MetronomeStateMachine";
+import { useMachine } from "@xstate/react";
+import { StartStopButton } from "@components/atoms/StartStopButton/StartStopButton";
 
 export const Metronome = () => {
-	const [isPlaying, setIsPlaying] = useState<boolean>(false);
-	const [tempo, setTempo] = useState<number>(DEFAULT_TEMPO);
 	const [ledTrigger, setLedTrigger] = useState<boolean>(false);
 	const audioRef = useRef<HTMLAudioElement>(new Audio(DEFAULT_SOUND));
-
-	const handleKnobOnChange = (steps: number) => {
-		updateTempo(steps, setTempo);
-	};
-
-	const handleKnobClick = () => {
-		console.log("Clicked");
-	};
+	const [metronomeState, metronomeStateSend] = useMachine(
+		MetronomeStateMachine,
+	);
 
 	useTimer({
-		pattern: DEFAULT_PATTERN,
-		isPlaying: isPlaying,
-		tempo: tempo,
+		pattern: metronomeState.context.pattern,
+		isPlaying: metronomeState.context.isPlaying,
+		tempo: metronomeState.context.tempo,
 		onTickHandlers: [
 			// tickHandlersPrint,
 			(step) => playSound(step, audioRef),
@@ -40,14 +32,20 @@ export const Metronome = () => {
 
 	return (
 		<>
-			<SegmentsDisplay value={"a1b2"} />
-			<button onClick={() => setIsPlaying(!isPlaying)}>
-				{isPlaying ? "Stop" : "Start"}
-			</button>
+			<SegmentsDisplay value={metronomeState.context.displayText} />
+			<StartStopButton
+				onClick={() =>
+					metronomeStateSend({ type: "startStopButton.click" })
+				}
+			>
+				{metronomeState.context.isPlaying ? "Stop" : "Start"}
+			</StartStopButton>
 			<LED trigger={ledTrigger} delay={60} />
 			<ButtonKnob
-				onChange={handleKnobOnChange}
-				onClick={handleKnobClick}
+				onChange={(steps) =>
+					metronomeStateSend({ type: "knob.turn", value: steps })
+				}
+				onClick={() => {}}
 			/>
 		</>
 	);

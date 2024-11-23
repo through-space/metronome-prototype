@@ -9,11 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@xstate/react": "^5.0.0",
+    "7-segment-display": "https://github.com/through-space/react-7-segment-display.git",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-rotary-knob": "^3.0.3",
     "styled-components": "^6.1.13",
-    "7-segment-display": "https://github.com/through-space/react-7-segment-display.git"
+    "xstate": "^5.19.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
