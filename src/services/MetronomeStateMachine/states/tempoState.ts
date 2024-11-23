@@ -1,10 +1,13 @@
 import { assign, StateNodeConfig } from "xstate";
 import { getUpdatedTempo } from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
-import { IMetronomeContext } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import {
+	IMetronomeContext,
+	TMetronomeEvent,
+} from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
-	any,
+	TMetronomeEvent,
 	any,
 	any,
 	any,
@@ -19,7 +22,7 @@ export const tempoState: StateNodeConfig<
 			actions: assign(({ context, event }) => {
 				const newTempo = getUpdatedTempo(context.tempo, event.value);
 
-				console.log(`new tempo in state ${newTempo}`);
+				// console.log(`new tempo in state ${newTempo}`);
 				return {
 					tempo: newTempo,
 					displayText: newTempo.toString(), // Use the calculated tempo

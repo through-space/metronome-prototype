@@ -10,6 +10,7 @@ import { LED } from "@components/atoms/LED/LED";
 import { DEFAULT_SOUND } from "@config/MetronomeConfig";
 import { MetronomeStateMachine } from "@services/MetronomeStateMachine/MetronomeStateMachine";
 import { useMachine } from "@xstate/react";
+import { StartStopButton } from "@components/atoms/StartStopButton/StartStopButton";
 
 export const Metronome = () => {
 	const [ledTrigger, setLedTrigger] = useState<boolean>(false);
@@ -31,14 +32,14 @@ export const Metronome = () => {
 
 	return (
 		<>
-			<SegmentsDisplay value={"a1b2"} />
-			<button
+			<SegmentsDisplay value={metronomeState.context.displayText} />
+			<StartStopButton
 				onClick={() =>
 					metronomeStateSend({ type: "startStopButton.click" })
 				}
 			>
 				{metronomeState.context.isPlaying ? "Stop" : "Start"}
-			</button>
+			</StartStopButton>
 			<LED trigger={ledTrigger} delay={60} />
 			<ButtonKnob
 				onChange={(steps) =>

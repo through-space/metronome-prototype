@@ -9,6 +9,8 @@ export interface IStartStopButtonClick {
 	type: "startStopButton.click";
 }
 
+export type TMetronomeEvent = IKnobTurnEvent | IStartStopButtonClick;
+
 export interface IMetronomeContext {
 	tempo: number;
 	pattern: EStep[];

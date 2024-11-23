@@ -19,6 +19,8 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 			height={70}
 			color="red"
 			skew={false}
+			shiftText={" "}
+			isEmptyCharLeft={false}
 		/>
 	);
 };
