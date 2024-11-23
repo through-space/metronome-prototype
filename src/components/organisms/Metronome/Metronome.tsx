@@ -46,6 +46,9 @@ export const Metronome = () => {
 					metronomeStateSend({ type: "knob.turn", value: steps })
 				}
 				onClick={() => {}}
+				onLongPress={() => {
+					console.log("longpress");
+				}}
 			/>
 		</>
 	);

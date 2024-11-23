@@ -5,9 +5,10 @@ import {
 	ButtonKnobWrapper,
 } from "@components/molecules/ButtonKnob/ButtonKnobStyledComponents";
 import { IButtonKnobProps } from "@components/molecules/ButtonKnob/ButtonKnobInterfaces";
+import { useLongPress } from "use-long-press";
 
 export const ButtonKnob = (props: IButtonKnobProps) => {
-	const { onChange, onClick } = props;
+	const { onChange, onClick, onLongPress } = props;
 
 	const [knobValue, setKnobValue] = useState<number>(0);
 
@@ -38,6 +39,8 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 		}
 	};
 
+	const bind = onLongPress && useLongPress(onLongPress, { threshold: 2000 });
+
 	return (
 		<ButtonKnobWrapper>
 			<Knob
@@ -50,6 +53,7 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 			/>
 			<ButtonKnobInnerButtonWrapper
 				onClick={onClick}
+				{...bind()}
 			></ButtonKnobInnerButtonWrapper>
 		</ButtonKnobWrapper>
 	);
