@@ -32,6 +32,7 @@ export const Metronome = () => {
 
 	return (
 		<>
+			<div>State: {metronomeState.value.toString()}</div>
 			<SegmentsDisplay value={metronomeState.context.displayText} />
 			<StartStopButton
 				onClick={() =>
@@ -47,7 +48,7 @@ export const Metronome = () => {
 				}
 				onClick={() => {}}
 				onLongPress={() => {
-					console.log("longpress");
+					metronomeStateSend({ type: "knob.longclick" });
 				}}
 			/>
 		</>
