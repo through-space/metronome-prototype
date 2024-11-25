@@ -18,7 +18,6 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	} = props;
 
 	const [currentValue, setCurrentValue] = useState<string>(value);
-	// const timeIntervalId = useRef<NodeJS.Timeout | null>(null);
 	const { startBlinking, stopBlinking } = useBlinking(blinkingDelay);
 
 	const charMap = {
