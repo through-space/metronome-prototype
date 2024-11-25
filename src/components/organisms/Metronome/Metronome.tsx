@@ -41,16 +41,16 @@ export const Metronome = () => {
 			>
 				{metronomeState.context.isPlaying ? "Stop" : "Start"}
 			</StartStopButton>
-			<LED trigger={ledTrigger} delay={60} />
 			<ButtonKnob
 				onChange={(steps) =>
 					metronomeStateSend({ type: "knob.turn", value: steps })
 				}
-				onClick={() => {}}
+				onClick={() => metronomeStateSend({ type: "knob.click" })}
 				onLongPress={() => {
 					metronomeStateSend({ type: "knob.longclick" });
 				}}
 			/>
+			<LED trigger={ledTrigger} delay={60} />
 		</>
 	);
 };

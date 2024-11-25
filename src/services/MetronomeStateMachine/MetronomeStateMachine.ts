@@ -1,14 +1,13 @@
-import { assign, createMachine, setup, StateNodeConfig } from "xstate";
+import { assign, createMachine } from "xstate";
 import { INIT_METRONOME_STATE } from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
 import {
 	EStateMachineState,
 	IMetronomeContext,
-	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { tempoState } from "@services/MetronomeStateMachine/states/tempoState";
-import { stateMenuState } from "@services/MetronomeStateMachine/states/stateMenuState";
-import { a } from "vite/dist/node/types.d-aGj9QkWt";
+import { tempoState } from "@services/MetronomeStateMachine/states/tempoState/tempoState";
+import { stateMenuState } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuState";
+import { patternState } from "@services/MetronomeStateMachine/states/patternState/patternState";
 
 export const MetronomeStateMachine = createMachine(
 	{
@@ -31,6 +30,7 @@ export const MetronomeStateMachine = createMachine(
 		states: {
 			tempoState,
 			stateMenuState,
+			patternState,
 		},
 	},
 	{

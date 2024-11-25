@@ -1,30 +1,27 @@
-import { assign, StateNodeConfig, transition } from "xstate";
-import { getUpdatedTempo } from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
+import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
 import {
 	IMetronomeContext,
 	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { stateMenuState } from "@services/MetronomeStateMachine/states/stateMenuState";
+import { getUpdatedTempo } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 
-export const tempoState2test: StateNodeConfig<
+export const tempoState: StateNodeConfig<
 	IMetronomeContext,
 	TMetronomeEvent,
-	any,
+	never,
 	TMetronomeAction,
-	any,
-	any,
-	any,
-	any,
-	any,
-	any
+	never,
+	never,
+	string,
+	{},
+	EventObject,
+	MetaObject
 > = {
 	on: {
 		"knob.turn": {
 			actions: assign(({ context, event }) => {
 				const newTempo = getUpdatedTempo(context.tempo, event.value);
-
-				// console.log(`new tempo in state ${newTempo}`);
 				return {
 					tempo: newTempo,
 					displayText: newTempo.toString(), // Use the calculated tempo
@@ -33,6 +30,7 @@ export const tempoState2test: StateNodeConfig<
 		},
 		"knob.longclick": {
 			target: "stateMenuState",
+			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
 };
