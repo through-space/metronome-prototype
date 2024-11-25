@@ -1,35 +1,45 @@
-import { assign, createActor, createMachine } from "xstate";
-import {
-	getUpdatedTempo,
-	INIT_METRONOME_STATE,
-} from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
+import { assign, createMachine } from "xstate";
+import { INIT_METRONOME_STATE } from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
 import {
 	EStateMachineState,
-	IKnobTurnEvent,
 	IMetronomeContext,
-	IStartStopButtonClick,
+	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { tempoState } from "@services/MetronomeStateMachine/states/tempoState";
+import { tempoState } from "@services/MetronomeStateMachine/states/tempoState/tempoState";
+import { stateMenuState } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuState";
+import { patternState } from "@services/MetronomeStateMachine/states/patternState/patternState";
 
-export const MetronomeStateMachine = createMachine({
-	initial: EStateMachineState.tempoState,
-	types: {
-		context: {} as IMetronomeContext,
-		events: {} as IKnobTurnEvent | IStartStopButtonClick,
+export const MetronomeStateMachine = createMachine(
+	{
+		types: {
+			context: {} as IMetronomeContext,
+			events: {} as TMetronomeEvent,
+			// actions: {} as TMetronomeAction,
+		},
+		initial: EStateMachineState.tempoState,
+		on: {
+			"startStopButton.click": {
+				actions: assign(({ context }) => {
+					return {
+						isPlaying: !context.isPlaying,
+					};
+				}),
+			},
+		},
+		context: INIT_METRONOME_STATE,
+		states: {
+			tempoState,
+			stateMenuState,
+			patternState,
+		},
 	},
-	on: {
-		"startStopButton.click": {
-			actions: assign(({ context }) => {
-				return {
-					isPlaying: !context.isPlaying,
-				};
+	{
+		actions: {
+			ON_OPEN_STATE_MENU: assign({
+				lastState: ({ self }) => {
+					return self.getSnapshot().value.toString();
+				},
 			}),
 		},
 	},
-	context: INIT_METRONOME_STATE,
-	states: {
-		tempoState,
-	},
-});
-
-// export const metronomeActor = createActor(MetronomeStateMachine).start();
+);

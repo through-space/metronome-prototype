@@ -9,6 +9,8 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	const charMap = {
 		_: [0, 0, 0, 1, 0, 0, 0],
 		" ": [0, 0, 0, 0, 0, 0, 0],
+		"*": [1, 1, 0, 0, 0, 1, 1],
+		o: [0, 0, 1, 1, 1, 0, 1],
 		...charToDigit,
 	} as ICharToDigit;
 	return (

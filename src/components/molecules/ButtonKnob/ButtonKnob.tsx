@@ -6,16 +6,18 @@ import {
 } from "@components/molecules/ButtonKnob/ButtonKnobStyledComponents";
 import { IButtonKnobProps } from "@components/molecules/ButtonKnob/ButtonKnobInterfaces";
 import { useLongPress } from "use-long-press";
+import {
+	changeThreshold,
+	knobStep,
+	longClickThreshold,
+	maxKnobValue,
+	minKnobValue,
+} from "@components/molecules/ButtonKnob/ButtonKnobConsts";
 
 export const ButtonKnob = (props: IButtonKnobProps) => {
 	const { onChange, onClick, onLongPress } = props;
 
 	const [knobValue, setKnobValue] = useState<number>(0);
-
-	const minKnobValue = 0;
-	const maxKnobValue = 20;
-	const knobStep = 1;
-	const changeThreshold = Math.abs(maxKnobValue / 2);
 
 	const handleChange = (newKnobValue: number) => {
 		const roundedNewKnobValue = Math.round(newKnobValue);
@@ -25,6 +27,7 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 			return;
 		}
 
+		//TODO: extract to consts
 		if (Math.abs(change) > changeThreshold) {
 			if (change > 0) {
 				change = roundedNewKnobValue - maxKnobValue - knobValue;
@@ -39,7 +42,9 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 		}
 	};
 
-	const bind = onLongPress && useLongPress(onLongPress, { threshold: 2000 });
+	const bind =
+		onLongPress &&
+		useLongPress(onLongPress, { threshold: longClickThreshold });
 
 	return (
 		<ButtonKnobWrapper>
