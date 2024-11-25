@@ -14,7 +14,6 @@ export const MetronomeStateMachine = createMachine(
 		types: {
 			context: {} as IMetronomeContext,
 			events: {} as TMetronomeEvent,
-			// actions: {} as TMetronomeAction,
 		},
 		initial: EStateMachineState.tempoState,
 		on: {

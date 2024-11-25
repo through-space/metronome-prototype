@@ -3,11 +3,12 @@ import charToDigit, {
 	ICharToDigit,
 } from "7-segment-display/src/utils/charToDigit";
 import { ISegmentsDisplayProps } from "@components/molecules/SegmentsDisplay/SegmentsDisplayInterfaces";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	DEFAULT_BLINKING_DELAY,
 	getBlinkingText,
 } from "@components/molecules/SegmentsDisplay/SegmentsDisplayConsts";
+import { useBlinking } from "@components/molecules/SegmentsDisplay/hooks/useBlinking";
 
 export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	const {
@@ -17,6 +18,8 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	} = props;
 
 	const [currentValue, setCurrentValue] = useState<string>(value);
+	// const timeIntervalId = useRef<NodeJS.Timeout | null>(null);
+	const { startBlinking, stopBlinking } = useBlinking(blinkingDelay);
 
 	const charMap = {
 		_: [0, 0, 0, 1, 0, 0, 0],
@@ -26,23 +29,20 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 		...charToDigit,
 	} as ICharToDigit;
 
-	const timeIntervalId = useRef<NodeJS.Timeout | null>(null);
-	const blinkingText = getBlinkingText(value, blinkingChars);
+	useEffect(() => {
+		setCurrentValue(value);
+	}, [value]);
 
-	const stopBlinking = () => {
-		clearInterval(timeIntervalId.current);
-		timeIntervalId.current = null;
-	};
+	useEffect(() => {
+		if (blinkingChars) {
+			const blinkingText = getBlinkingText(value, blinkingChars);
+			startBlinking(blinkingText, currentValue, setCurrentValue);
+		}
 
-	if (blinkingText) {
-		// timeIntervalId.current = setInterval(() => {
-		// 	setCurrentValue((prevValue) =>
-		// 		prevValue === currentValue ? blinkingText : prevValue,
-		// 	);
-		// }, blinkingDelay);
-	} else {
-		stopBlinking();
-	}
+		return () => {
+			stopBlinking();
+		};
+	}, [value, blinkingChars, blinkingDelay]);
 
 	return (
 		<Display

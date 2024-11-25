@@ -30,5 +30,5 @@ export const patternState: StateNodeConfig<
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
-	// entry: assign({ currentEditCharIndex: 0, blinkingChars: [0] }),
+	entry: assign({ currentEditCharIndex: 0, blinkingChars: [0] }),
 };

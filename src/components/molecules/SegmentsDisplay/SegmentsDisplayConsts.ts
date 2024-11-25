@@ -1,4 +1,4 @@
-export const DEFAULT_BLINKING_DELAY = 200;
+export const DEFAULT_BLINKING_DELAY = 500;
 
 export const getBlinkingText = (
 	originalText: string,

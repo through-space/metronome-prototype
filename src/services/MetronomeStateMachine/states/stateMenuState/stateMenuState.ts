@@ -33,7 +33,6 @@ export const stateMenuState: StateNodeConfig<
 
 				const nextStateName = allStates[nextStateIndex];
 
-				const displayText = getStateMenuDisplay(nextStateName, context);
 				return {
 					displayText: getStateMenuDisplay(nextStateName, context),
 					currentMenuOptionIndex: nextStateIndex,
