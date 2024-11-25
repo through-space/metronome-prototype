@@ -3,7 +3,7 @@ import sound2 from "@assets/sounds/hh.wav";
 import { EStep } from "@hooks/useTimer/useTimerInterfaces";
 
 export const MIN_TEMPO = 20;
-export const MAX_TEMPO = 320;
+export const MAX_TEMPO = 300;
 export const DEFAULT_TEMPO = 60;
 export const DEFAULT_VOLUME = 0;
 
