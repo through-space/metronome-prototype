@@ -5,9 +5,10 @@ import {
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { getUpdatedTempo } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
+import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
 
 export const patternState: StateNodeConfig<
-	IMetronomeContext,
+	IPatternStateContext,
 	TMetronomeEvent,
 	never,
 	TMetronomeAction,
@@ -29,4 +30,5 @@ export const patternState: StateNodeConfig<
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
+	entry: assign({ currentEditCharIndex: 0, blinkingChars: [0] }),
 };

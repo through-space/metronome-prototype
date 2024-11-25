@@ -16,3 +16,5 @@ npm run dev
 - [ ] Timer Fix initial step
 - [ ] Metronome Component: export consts
 - [x] Blink LED
+- [ ] Fix: 
+  [Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence

@@ -28,6 +28,7 @@ export interface IMetronomeContext {
 	tempo: number;
 	pattern: EStep[];
 	displayText: string;
+	blinkingChars: number[];
 	isPlaying: boolean;
 	lastState: string;
 }

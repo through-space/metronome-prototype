@@ -1,4 +1,5 @@
 import { MAX_TEMPO, MIN_TEMPO } from "@config/MetronomeConfig";
+import { EStep } from "@hooks/useTimer/useTimerInterfaces";
 
 export const getUpdatedTempo = (
 	tempo: number,
@@ -14,3 +15,5 @@ export const getUpdatedTempo = (
 		return newTempo;
 	}
 };
+
+export const getTempoDisplay = (tempo: number): string => tempo.toString();

@@ -33,7 +33,10 @@ export const Metronome = () => {
 	return (
 		<>
 			<div>State: {metronomeState.value.toString()}</div>
-			<SegmentsDisplay value={metronomeState.context.displayText} />
+			<SegmentsDisplay
+				value={metronomeState.context.displayText}
+				blinkingChars={metronomeState.context.blinkingChars}
+			/>
 			<StartStopButton
 				onClick={() =>
 					metronomeStateSend({ type: "startStopButton.click" })

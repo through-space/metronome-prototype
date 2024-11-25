@@ -4,7 +4,10 @@ import {
 	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { getUpdatedTempo } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
+import {
+	getTempoDisplay,
+	getUpdatedTempo,
+} from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
@@ -33,4 +36,9 @@ export const tempoState: StateNodeConfig<
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
+	entry: assign(({ context }) => {
+		return {
+			displayText: getTempoDisplay(context.tempo),
+		};
+	}),
 };

@@ -9,9 +9,10 @@ import {
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { getPatternDisplay } from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
 import { context } from "esbuild";
+import { getTempoDisplay } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 
 const stateMenuOptionsDisplayMap = new Map<string, TGetStateMenuDisplayFunc>([
-	["tempoState", ({ context }) => context.tempo.toString()],
+	["tempoState", ({ context }) => getTempoDisplay(context.tempo)],
 	["patternState", ({ context }) => getPatternDisplay(context.pattern)],
 ]);
 
