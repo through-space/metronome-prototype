@@ -35,6 +35,7 @@ export interface IMetronomeContext {
 
 export enum EStateMachineState {
 	tempoState = "tempoState",
+	patternState = "patternState",
 }
 
 // export interface IActionOpenMenu extends () => {} {
