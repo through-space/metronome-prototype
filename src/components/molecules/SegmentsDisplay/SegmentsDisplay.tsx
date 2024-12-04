@@ -12,12 +12,12 @@ import { useBlinking } from "@components/molecules/SegmentsDisplay/hooks/useBlin
 
 export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	const {
-		value,
+		value: originalValue,
 		blinkingChars,
 		blinkingDelay = DEFAULT_BLINKING_DELAY,
 	} = props;
 
-	const [currentValue, setCurrentValue] = useState<string>(value);
+	const [currentValue, setCurrentValue] = useState<string>(originalValue);
 	const { startBlinking, stopBlinking } = useBlinking(blinkingDelay);
 
 	const charMap = {
@@ -29,19 +29,19 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	} as ICharToDigit;
 
 	useEffect(() => {
-		setCurrentValue(value);
-	}, [value]);
+		setCurrentValue(originalValue);
+	}, [originalValue]);
 
 	useEffect(() => {
 		if (blinkingChars) {
-			const blinkingText = getBlinkingText(value, blinkingChars);
-			startBlinking(blinkingText, currentValue, setCurrentValue);
+			const blinkingText = getBlinkingText(originalValue, blinkingChars);
+			startBlinking(blinkingText, originalValue, setCurrentValue);
 		}
 
 		return () => {
 			stopBlinking();
 		};
-	}, [value, blinkingChars, blinkingDelay]);
+	}, [originalValue, blinkingChars, blinkingDelay]);
 
 	return (
 		<Display

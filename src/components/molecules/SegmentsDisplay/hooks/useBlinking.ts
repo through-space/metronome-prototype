@@ -10,13 +10,13 @@ export const useBlinking = (blinkingDelay: number) => {
 
 	const startBlinking = (
 		blinkingText: string,
-		currentValue: string,
+		originalValue: string,
 		setCurrentValue: Dispatch<SetStateAction<string>>,
 	) => {
 		stopBlinking();
 		timeIntervalId.current = setInterval(() => {
 			setCurrentValue((prevValue) =>
-				prevValue === currentValue ? blinkingText : currentValue,
+				prevValue === originalValue ? blinkingText : originalValue,
 			);
 		}, blinkingDelay);
 	};
