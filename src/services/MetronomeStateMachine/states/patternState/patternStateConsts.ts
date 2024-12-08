@@ -1,5 +1,10 @@
 import { EStep } from "@hooks/useTimer/useTimerInterfaces";
-import { TGetStateMenuDisplayFunc } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
+import {
+	IStateMenuContext,
+	TGetStateMenuDisplayFunc,
+} from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
+import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
+import { IKnobTurnEvent } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 const EMPTY_CHAR = " ";
 
@@ -20,4 +25,13 @@ export const getPatternDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
 			.join(""),
 		blinkingChars: [0],
 	};
+};
+
+export const getNewCharIndex = (
+	context: IPatternStateContext,
+	event: IKnobTurnEvent,
+): number => {
+	return Math.abs(
+		(context.currentEditCharIndex + event.value) % context.pattern.length,
+	);
 };

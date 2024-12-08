@@ -30,9 +30,6 @@ export const tempoState: StateNodeConfig<
 					displayText: newTempo.toString(), // Use the calculated tempo
 				};
 			}),
-			// actions: ({ event }) => {
-			// 	console.log("change: ", event);
-			// },
 		},
 		"knob.longclick": {
 			target: "stateMenuState",

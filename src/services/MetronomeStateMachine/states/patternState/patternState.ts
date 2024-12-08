@@ -4,7 +4,10 @@ import {
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
-import { getPatternDisplay } from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
+import {
+	getNewCharIndex,
+	getPatternDisplay,
+} from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
 
 export const patternState: StateNodeConfig<
 	IPatternStateContext,
@@ -22,10 +25,7 @@ export const patternState: StateNodeConfig<
 		"knob.turn": {
 			actions: [
 				assign(({ context, event }) => {
-					const newEditCharIndex = Math.abs(
-						(context.currentEditCharIndex + event.value) %
-							context.pattern.length,
-					);
+					const newEditCharIndex = getNewCharIndex(context, event);
 
 					return {
 						currentEditCharIndex: newEditCharIndex,
