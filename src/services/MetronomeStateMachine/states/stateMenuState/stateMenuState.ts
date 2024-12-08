@@ -34,7 +34,9 @@ export const stateMenuState: StateNodeConfig<
 				const nextStateName = allStates[nextStateIndex];
 
 				return {
-					displayText: getStateMenuDisplay(nextStateName, context),
+					displayText: getStateMenuDisplay(nextStateName, context)
+						.value,
+					blinkingChars: [],
 					currentMenuOptionIndex: nextStateIndex,
 					currentStateOption: nextStateName,
 				};

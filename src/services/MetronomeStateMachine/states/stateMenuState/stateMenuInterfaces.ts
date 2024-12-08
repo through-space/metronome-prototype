@@ -1,8 +1,4 @@
-import {
-	IKnobTurnEvent,
-	IMetronomeContext,
-} from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { getNextStateOptionIndex } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuStateConsts";
+import { IMetronomeContext } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export interface IStateMenuContext extends IMetronomeContext {
 	currentMenuOptionIndex: number;
@@ -13,9 +9,10 @@ export interface IStateMenuDisplayProps {
 	context?: IMetronomeContext;
 }
 
-export type TGetStateMenuDisplayFunc = (
-	props: IStateMenuDisplayProps,
-) => string;
+export type TGetStateMenuDisplayFunc = (props: IStateMenuDisplayProps) => {
+	value: string;
+	blinkingChars?: number[];
+};
 
 export interface IGetNextStateOptionIndexProps {
 	lastState: string;

@@ -1,12 +1,11 @@
 import { MAX_TEMPO, MIN_TEMPO } from "@config/MetronomeConfig";
-import { EStep } from "@hooks/useTimer/useTimerInterfaces";
+import { TGetStateMenuDisplayFunc } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
 
 export const getUpdatedTempo = (
 	tempo: number,
 	tempoIncrement: number,
 ): number => {
 	const newTempo = tempo + tempoIncrement;
-	// console.log("new tempo", newTempo);
 	if (newTempo > MAX_TEMPO) {
 		return MAX_TEMPO;
 	} else if (newTempo < MIN_TEMPO) {
@@ -16,4 +15,8 @@ export const getUpdatedTempo = (
 	}
 };
 
-export const getTempoDisplay = (tempo: number): string => tempo.toString();
+export const getTempoDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
+	return {
+		value: context.tempo.toString(),
+	};
+};

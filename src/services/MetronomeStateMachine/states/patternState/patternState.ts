@@ -1,11 +1,10 @@
 import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
 import {
-	IMetronomeContext,
 	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { getUpdatedTempo } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
+import { getPatternDisplay } from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
 
 export const patternState: StateNodeConfig<
 	IPatternStateContext,
@@ -21,14 +20,33 @@ export const patternState: StateNodeConfig<
 > = {
 	on: {
 		"knob.turn": {
-			actions: () => {
-				console.log("knob turn in patterState");
-			},
+			actions: [
+				assign(({ context, event }) => {
+					const newEditCharIndex = Math.abs(
+						(context.currentEditCharIndex + event.value) %
+							context.pattern.length,
+					);
+
+					return {
+						currentEditCharIndex: newEditCharIndex,
+						blinkingChars: [newEditCharIndex],
+					};
+				}),
+			],
+		},
+		"knob.click": {
+			actions: [],
 		},
 		"knob.longclick": {
 			target: "stateMenuState",
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
-	entry: assign({ currentEditCharIndex: 0, blinkingChars: [0] }),
+	entry: assign(({ context }) => {
+		return {
+			currentEditCharIndex: 0,
+			blinkingChars: [0],
+			displayText: getPatternDisplay({ context }).value,
+		};
+	}),
 };
