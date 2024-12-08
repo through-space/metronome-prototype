@@ -15,8 +15,7 @@ export const MetronomeStateMachine = createMachine(
 			context: {} as IMetronomeContext,
 			events: {} as TMetronomeEvent,
 		},
-		// initial: EStateMachineState.tempoState,
-		initial: EStateMachineState.patternState,
+		initial: EStateMachineState.tempoState,
 		on: {
 			"startStopButton.click": {
 				actions: assign(({ context }) => {

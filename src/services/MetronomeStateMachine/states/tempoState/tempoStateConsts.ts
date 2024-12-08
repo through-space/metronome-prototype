@@ -1,4 +1,5 @@
 import { MAX_TEMPO, MIN_TEMPO } from "@config/MetronomeConfig";
+import { TGetStateMenuDisplayFunc } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
 
 export const getUpdatedTempo = (
 	tempo: number,
@@ -14,4 +15,8 @@ export const getUpdatedTempo = (
 	}
 };
 
-export const getTempoDisplay = (tempo: number): string => tempo.toString();
+export const getTempoDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
+	return {
+		value: context.tempo.toString(),
+	};
+};

@@ -1,19 +1,28 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
-export const useBlinking = (blinkingDelay: number) => {
+export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 	const timeIntervalId = useRef<NodeJS.Timeout | null>(null);
+	const [currentValue, setCurrentValue] = useState<string | null>(
+		originalValue,
+	);
+
+	useEffect(() => {
+		setCurrentValue(originalValue);
+	}, [originalValue]);
 
 	const stopBlinking = () => {
 		clearInterval(timeIntervalId.current);
 		timeIntervalId.current = null;
 	};
 
-	const startBlinking = (
-		blinkingText: string,
-		originalValue: string,
-		setCurrentValue: Dispatch<SetStateAction<string>>,
-	) => {
+	const startBlinking = (blinkingText: string) => {
 		stopBlinking();
+		setCurrentValue(originalValue);
+
+		if (blinkingText === originalValue) {
+			return;
+		}
+
 		timeIntervalId.current = setInterval(() => {
 			setCurrentValue((prevValue) =>
 				prevValue === originalValue ? blinkingText : originalValue,
@@ -21,5 +30,5 @@ export const useBlinking = (blinkingDelay: number) => {
 		}, blinkingDelay);
 	};
 
-	return { startBlinking, stopBlinking };
+	return { startBlinking, stopBlinking, currentValue };
 };

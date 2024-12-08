@@ -3,7 +3,7 @@ import charToDigit, {
 	ICharToDigit,
 } from "7-segment-display/src/utils/charToDigit";
 import { ISegmentsDisplayProps } from "@components/molecules/SegmentsDisplay/SegmentsDisplayInterfaces";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import {
 	DEFAULT_BLINKING_DELAY,
 	getBlinkingText,
@@ -17,8 +17,10 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 		blinkingDelay = DEFAULT_BLINKING_DELAY,
 	} = props;
 
-	const [currentValue, setCurrentValue] = useState<string>(originalValue);
-	const { startBlinking, stopBlinking } = useBlinking(blinkingDelay);
+	const { startBlinking, stopBlinking, currentValue } = useBlinking(
+		originalValue,
+		blinkingDelay,
+	);
 
 	const charMap = {
 		_: [0, 0, 0, 1, 0, 0, 0],
@@ -29,13 +31,9 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	} as ICharToDigit;
 
 	useEffect(() => {
-		setCurrentValue(originalValue);
-	}, [originalValue]);
-
-	useEffect(() => {
-		if (blinkingChars) {
+		if (blinkingChars && blinkingChars.length) {
 			const blinkingText = getBlinkingText(originalValue, blinkingChars);
-			startBlinking(blinkingText, originalValue, setCurrentValue);
+			startBlinking(blinkingText);
 		}
 
 		return () => {

@@ -4,7 +4,6 @@ import {
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
-import { getTempoDisplay } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 import { getPatternDisplay } from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
 
 export const patternState: StateNodeConfig<
@@ -47,7 +46,7 @@ export const patternState: StateNodeConfig<
 		return {
 			currentEditCharIndex: 0,
 			blinkingChars: [0],
-			displayText: getPatternDisplay(context.pattern),
+			displayText: getPatternDisplay({ context }).value,
 		};
 	}),
 };

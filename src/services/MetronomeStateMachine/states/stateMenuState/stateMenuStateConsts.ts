@@ -1,27 +1,22 @@
 import {
 	IGetNextStateOptionIndexProps,
-	IStateMenuContext,
 	TGetStateMenuDisplayFunc,
 } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
-import {
-	IKnobTurnEvent,
-	IMetronomeContext,
-} from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import { IMetronomeContext } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { getPatternDisplay } from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
-import { context } from "esbuild";
 import { getTempoDisplay } from "@services/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 
 const stateMenuOptionsDisplayMap = new Map<string, TGetStateMenuDisplayFunc>([
-	["tempoState", ({ context }) => getTempoDisplay(context.tempo)],
-	["patternState", ({ context }) => getPatternDisplay(context.pattern)],
+	["tempoState", ({ context }) => getTempoDisplay({ context })],
+	["patternState", ({ context }) => getPatternDisplay({ context })],
 ]);
 
 export const getStateMenuDisplay = (
 	stateName: string,
 	context: IMetronomeContext,
-): string => {
+): { value: string; displayChars?: number[] } => {
 	if (!stateMenuOptionsDisplayMap.has(stateName)) {
-		return "";
+		return { value: "" };
 	}
 
 	return stateMenuOptionsDisplayMap.get(stateName)({ context });
