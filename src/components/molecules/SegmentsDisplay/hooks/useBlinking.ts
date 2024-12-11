@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 	const timeIntervalId = useRef<NodeJS.Timeout | null>(null);

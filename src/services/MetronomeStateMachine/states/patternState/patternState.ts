@@ -42,6 +42,7 @@ export const patternState: StateNodeConfig<
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
+	states: {},
 	entry: assign(({ context }) => {
 		return {
 			currentEditCharIndex: 0,

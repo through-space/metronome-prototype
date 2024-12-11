@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@xstate/react": "^5.0.0",
     "7-segment-display": "https://github.com/through-space/react-7-segment-display.git",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -19,6 +18,7 @@
     "xstate": "^5.19.0"
   },
   "devDependencies": {
+    "@xstate/react": "^5.0.0",
     "@eslint/js": "^9.13.0",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
