@@ -1,5 +1,6 @@
 import { EStep } from "@hooks/useTimer/useTimerInterfaces";
 import { ActionFunction, ParameterizedObject } from "xstate";
+import { patternChooseStepState } from "@services/MetronomeStateMachine/states/patternState/states/patternChooseStepState";
 
 export interface IKnobTurnEvent {
 	type: "knob.turn";
@@ -18,6 +19,12 @@ export interface IStartStopButtonClick {
 	type: "startStopButton.click";
 }
 
+export interface IDisplayState {
+	text: string;
+	blinkingDelay: number;
+	blinkingChars: number[];
+}
+
 export type TMetronomeEvent =
 	| IKnobTurnEvent
 	| IStartStopButtonClick
@@ -27,15 +34,16 @@ export type TMetronomeEvent =
 export interface IMetronomeContext {
 	tempo: number;
 	pattern: EStep[];
-	displayText: string;
-	blinkingChars: number[];
 	isPlaying: boolean;
 	lastState: string;
+	display: IDisplayState;
 }
 
 export enum EStateMachineState {
 	tempoState = "tempoState",
 	patternState = "patternState",
+	stateMenuState = "stateMenuState",
+	patternChooseStepState = "patternChooseStepState",
 }
 
 // export interface IActionOpenMenu extends () => {} {

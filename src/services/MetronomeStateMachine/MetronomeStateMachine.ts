@@ -8,6 +8,7 @@ import {
 import { tempoState } from "@services/MetronomeStateMachine/states/tempoState/tempoState";
 import { stateMenuState } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuState";
 import { patternState } from "@services/MetronomeStateMachine/states/patternState/patternState";
+import { patternChooseStepState } from "@services/MetronomeStateMachine/states/patternState/states/patternChooseStepState";
 
 export const MetronomeStateMachine = createMachine(
 	{
@@ -30,6 +31,7 @@ export const MetronomeStateMachine = createMachine(
 			tempoState,
 			stateMenuState,
 			patternState,
+			patternChooseStepState,
 		},
 	},
 	{

@@ -30,12 +30,14 @@ export const Metronome = () => {
 		],
 	});
 
+	console.log("metronomeStateSend", metronomeState);
 	return (
 		<>
-			<div>State: {metronomeState.value.toString()}</div>
+			<div>State1: {metronomeState.value.toString()}</div>
 			<SegmentsDisplay
-				value={metronomeState.context.displayText}
-				blinkingChars={metronomeState.context.blinkingChars}
+				value={metronomeState.context.display.text}
+				blinkingChars={metronomeState.context.display.blinkingChars}
+				blinkingDelay={metronomeState.context.display.blinkingDelay}
 			/>
 			<StartStopButton
 				onClick={() =>

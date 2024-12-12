@@ -7,6 +7,13 @@ export const MAX_TEMPO = 320;
 export const DEFAULT_TEMPO = 60;
 export const DEFAULT_VOLUME = 0;
 
+export enum DELAY_TYPE {
+	LONG = 300,
+	SHORT = 100,
+}
+
+export const DEFAULT_BLINKING_DELAY = DELAY_TYPE.LONG;
+
 export const DEFAULT_PATTERN = [EStep.HIGH, EStep.LOW, EStep.LOW, EStep.LOW];
 
 const SOUND_MAP: Record<string, string> = {

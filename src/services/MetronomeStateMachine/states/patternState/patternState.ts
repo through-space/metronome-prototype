@@ -4,10 +4,7 @@ import {
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
-import {
-	getNewCharIndex,
-	getPatternDisplay,
-} from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
+import { patternChooseStepState } from "@services/MetronomeStateMachine/states/patternState/states/patternChooseStepState";
 
 export const patternState: StateNodeConfig<
 	IPatternStateContext,
@@ -21,33 +18,19 @@ export const patternState: StateNodeConfig<
 	EventObject,
 	MetaObject
 > = {
+	initial: "patternChooseStepState",
 	on: {
-		"knob.turn": {
-			actions: [
-				assign(({ context, event }) => {
-					const newEditCharIndex = getNewCharIndex(context, event);
-
-					return {
-						currentEditCharIndex: newEditCharIndex,
-						blinkingChars: [newEditCharIndex],
-					};
-				}),
-			],
-		},
-		"knob.click": {
-			actions: [],
-		},
 		"knob.longclick": {
 			target: "stateMenuState",
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
 	},
-	states: {},
-	entry: assign(({ context }) => {
-		return {
-			currentEditCharIndex: 0,
-			blinkingChars: [0],
-			displayText: getPatternDisplay({ context }).value,
-		};
+	states: {
+		patternChooseStepState,
+	},
+	entry: assign({
+		currentEditCharIndex: 0,
+		// blinkingChars: [0],
+		// displayText: getPatternDisplay({ context }).value,
 	}),
 };

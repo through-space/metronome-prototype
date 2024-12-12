@@ -6,6 +6,7 @@ import {
 	getNextStateOptionIndex,
 	getStateMenuDisplay,
 } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuStateConsts";
+import { DELAY_TYPE } from "@config/MetronomeConfig";
 
 export const stateMenuState: StateNodeConfig<
 	IStateMenuContext,
@@ -34,9 +35,12 @@ export const stateMenuState: StateNodeConfig<
 				const nextStateName = allStates[nextStateIndex];
 
 				return {
-					displayText: getStateMenuDisplay(nextStateName, context)
-						.value,
-					blinkingChars: [],
+					...context,
+					display: {
+						...context.display,
+						text: getStateMenuDisplay(nextStateName, context).value,
+					},
+
 					currentMenuOptionIndex: nextStateIndex,
 					currentStateOption: nextStateName,
 				};
@@ -55,5 +59,21 @@ export const stateMenuState: StateNodeConfig<
 			},
 		],
 	},
-	exit: assign({ currentStateOption: "", currentMenuOptionIndex: undefined }),
+	exit: assign(({ context }) => {
+		return {
+			currentStateOption: "",
+			currentMenuOptionIndex: undefined,
+			display: { ...context.display, blinkingChars: [] },
+		};
+	}),
+	entry: assign(({ context }) => {
+		return {
+			...context,
+			display: {
+				...context.display,
+				blinkingChars: [0, 1, 2, 3],
+				blinkingDelay: DELAY_TYPE.LONG,
+			},
+		};
+	}),
 };

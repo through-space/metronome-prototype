@@ -14,7 +14,7 @@ const stateMenuOptionsDisplayMap = new Map<string, TGetStateMenuDisplayFunc>([
 export const getStateMenuDisplay = (
 	stateName: string,
 	context: IMetronomeContext,
-): { value: string; displayChars?: number[] } => {
+): { value: string } => {
 	if (!stateMenuOptionsDisplayMap.has(stateName)) {
 		return { value: "" };
 	}

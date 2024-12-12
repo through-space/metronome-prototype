@@ -26,8 +26,12 @@ export const tempoState: StateNodeConfig<
 			actions: assign(({ context, event }) => {
 				const newTempo = getUpdatedTempo(context.tempo, event.value);
 				return {
+					...context,
 					tempo: newTempo,
-					displayText: newTempo.toString(), // Use the calculated tempo
+					display: {
+						...context.display,
+						text: newTempo.toString(),
+					},
 				};
 			}),
 		},
@@ -38,7 +42,11 @@ export const tempoState: StateNodeConfig<
 	},
 	entry: assign(({ context }) => {
 		return {
-			displayText: getTempoDisplay({ context }).value,
+			...context,
+			display: {
+				...context.display,
+				text: getTempoDisplay({ context }).value,
+			},
 		};
 	}),
 };
