@@ -1,5 +1,6 @@
 import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
 import {
+	EMetronomeEvent,
 	IMetronomeContext,
 	TMetronomeAction,
 	TMetronomeEvent,
@@ -22,7 +23,7 @@ export const tempoState: StateNodeConfig<
 	MetaObject
 > = {
 	on: {
-		"knob.turn": {
+		[EMetronomeEvent.KNOB_TURN]: {
 			actions: assign(({ context, event }) => {
 				const newTempo = getUpdatedTempo(context.tempo, event.value);
 				return {
@@ -35,7 +36,8 @@ export const tempoState: StateNodeConfig<
 				};
 			}),
 		},
-		"knob.longclick": {
+		[EMetronomeEvent.KNOB_CLICK]: {},
+		[EMetronomeEvent.KNOB_LONG_CLICK]: {
 			target: "stateMenuState",
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},

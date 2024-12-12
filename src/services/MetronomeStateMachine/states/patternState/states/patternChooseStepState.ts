@@ -1,5 +1,5 @@
 import {
-	EStateMachineState,
+	EMetronomeEvent,
 	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
@@ -23,7 +23,7 @@ export const patternChooseStepState: StateNodeConfig<
 	MetaObject
 > = {
 	on: {
-		"knob.turn": {
+		[EMetronomeEvent.KNOB_TURN]: {
 			actions: [
 				assign(({ context, event }) => {
 					const newEditCharIndex = getNewCharIndex(context, event);

@@ -1,22 +1,28 @@
 import { EStep } from "@hooks/useTimer/useTimerInterfaces";
-import { ActionFunction, ParameterizedObject } from "xstate";
-import { patternChooseStepState } from "@services/MetronomeStateMachine/states/patternState/states/patternChooseStepState";
+import { ParameterizedObject } from "xstate";
+
+export enum EMetronomeEvent {
+	KNOB_TURN = "knob.turn",
+	KNOB_CLICK = "knob.click",
+	KNOB_LONG_CLICK = "knob.longClick",
+	START_STOP_CLICK = "startStopButton.click",
+}
 
 export interface IKnobTurnEvent {
-	type: "knob.turn";
+	type: EMetronomeEvent.KNOB_TURN;
 	value: number;
 }
 
 export interface IKnobClickEvent {
-	type: "knob.click";
+	type: EMetronomeEvent.KNOB_CLICK;
 }
 
 export interface IKnobLongClickEvent {
-	type: "knob.longclick";
+	type: EMetronomeEvent.KNOB_LONG_CLICK;
 }
 
 export interface IStartStopButtonClick {
-	type: "startStopButton.click";
+	type: EMetronomeEvent.START_STOP_CLICK;
 }
 
 export interface IDisplayState {
@@ -45,27 +51,6 @@ export enum EStateMachineState {
 	stateMenuState = "stateMenuState",
 	patternChooseStepState = "patternChooseStepState",
 }
-
-// export interface IActionOpenMenu extends () => {} {
-// 	type: "OPEN_MENU";
-// 	params: {};
-// }
-
-// export type TMetronomeAction = IActionOpenMenu;
-//
-//
-// export interface IActionOpenMenu extends ActionObject {
-// 	type: "OPEN_MENU"; // Use a specific type for better type-checking
-// 	params: Record<string, unknown>; // Specify the structure of `params`
-// }
-
-// export type TActionOpenMenu = ParameterizedObject;
-// export type TActionOpenMenu = {
-// 	type: "OPEN_STATE_MENU";
-// 	params: {
-// 		context: IMetronomeContext;
-// 	};
-// };
 
 export interface IActionOpenMenu extends ParameterizedObject {
 	type: "ON_OPEN_STATE_MENU";

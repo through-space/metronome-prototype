@@ -1,5 +1,8 @@
 import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
-import { TMetronomeEvent } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import {
+	EMetronomeEvent,
+	TMetronomeEvent,
+} from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { IStateMenuContext } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
 import {
 	getAllStateOptions,
@@ -21,7 +24,7 @@ export const stateMenuState: StateNodeConfig<
 	MetaObject
 > = {
 	on: {
-		"knob.turn": {
+		[EMetronomeEvent.KNOB_TURN]: {
 			actions: assign(({ context, event, self }) => {
 				const allStates = getAllStateOptions();
 
@@ -46,7 +49,7 @@ export const stateMenuState: StateNodeConfig<
 				};
 			}),
 		},
-		"knob.click": [
+		[EMetronomeEvent.KNOB_CLICK]: [
 			{
 				guard: ({ context }) =>
 					context.currentStateOption === "tempoState",

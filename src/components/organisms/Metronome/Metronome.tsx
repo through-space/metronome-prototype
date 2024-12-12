@@ -11,6 +11,7 @@ import { DEFAULT_SOUND } from "@config/MetronomeConfig";
 import { MetronomeStateMachine } from "@services/MetronomeStateMachine/MetronomeStateMachine";
 import { useMachine } from "@xstate/react";
 import { StartStopButton } from "@components/atoms/StartStopButton/StartStopButton";
+import { EMetronomeEvent } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export const Metronome = () => {
 	const [ledTrigger, setLedTrigger] = useState<boolean>(false);
@@ -30,7 +31,6 @@ export const Metronome = () => {
 		],
 	});
 
-	console.log("metronomeStateSend", metronomeState);
 	return (
 		<>
 			<div>State1: {metronomeState.value.toString()}</div>
@@ -41,18 +41,27 @@ export const Metronome = () => {
 			/>
 			<StartStopButton
 				onClick={() =>
-					metronomeStateSend({ type: "startStopButton.click" })
+					metronomeStateSend({
+						type: EMetronomeEvent.START_STOP_CLICK,
+					})
 				}
 			>
 				{metronomeState.context.isPlaying ? "Stop" : "Start"}
 			</StartStopButton>
 			<ButtonKnob
 				onChange={(steps) =>
-					metronomeStateSend({ type: "knob.turn", value: steps })
+					metronomeStateSend({
+						type: EMetronomeEvent.KNOB_TURN,
+						value: steps,
+					})
 				}
-				onClick={() => metronomeStateSend({ type: "knob.click" })}
+				onClick={() =>
+					metronomeStateSend({ type: EMetronomeEvent.KNOB_CLICK })
+				}
 				onLongPress={() => {
-					metronomeStateSend({ type: "knob.longclick" });
+					metronomeStateSend({
+						type: EMetronomeEvent.KNOB_LONG_CLICK,
+					});
 				}}
 			/>
 			<LED trigger={ledTrigger} delay={60} />

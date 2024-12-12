@@ -1,5 +1,6 @@
 import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
 import {
+	EMetronomeEvent,
 	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
@@ -20,7 +21,7 @@ export const patternState: StateNodeConfig<
 > = {
 	initial: "patternChooseStepState",
 	on: {
-		"knob.longclick": {
+		[EMetronomeEvent.KNOB_LONG_CLICK]: {
 			target: "stateMenuState",
 			actions: [{ type: "ON_OPEN_STATE_MENU" }],
 		},
@@ -30,7 +31,5 @@ export const patternState: StateNodeConfig<
 	},
 	entry: assign({
 		currentEditCharIndex: 0,
-		// blinkingChars: [0],
-		// displayText: getPatternDisplay({ context }).value,
 	}),
 };
