@@ -6,10 +6,10 @@ import {
 import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
 import { getPatternDisplay } from "@services/MetronomeStateMachine/states/patternState/patternStateConsts";
 import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
-import { getNewCharIndex } from "@services/MetronomeStateMachine/states/patternState/states/patternSubstatesConsts";
+import { getNextStep } from "@services/MetronomeStateMachine/states/patternState/states/patternSubstatesConsts";
 import { E_DISPLAY_BLINKING_DELAYS } from "@config/MetronomeConfig";
 
-export const patternChooseStepState: StateNodeConfig<
+export const patternStepTypeState: StateNodeConfig<
 	IPatternStateContext,
 	TMetronomeEvent,
 	never,
@@ -21,24 +21,38 @@ export const patternChooseStepState: StateNodeConfig<
 	EventObject,
 	MetaObject
 > = {
-	id: "patternChooseStepState",
+	id: "patternStepTypeState",
 	on: {
 		[EMetronomeEvent.KNOB_CLICK]: {
-			target: "#patternStepTypeState",
+			target: "#patternChooseStepState",
 		},
 		[EMetronomeEvent.KNOB_TURN]: {
 			actions: [
 				assign(({ context, event }) => {
-					const newEditCharIndex = getNewCharIndex(context, event);
+					const curStepType =
+						context.pattern[context.currentEditCharIndex];
+					const nextStepType = getNextStep(curStepType, event);
+					const newPattern = context.pattern;
+					newPattern[context.currentEditCharIndex] = nextStepType;
 
 					return {
 						...context,
-						currentEditCharIndex: newEditCharIndex,
+						// pattern: newPattern,
 						display: {
 							...context.display,
-							blinkingChars: [newEditCharIndex],
+							text: getPatternDisplay({ context }).value,
 						},
 					};
+					// const newEditCharIndex = getNewCharIndex(context, event);
+					//
+					// return {
+					// 	...context,
+					// 	currentEditCharIndex: newEditCharIndex,
+					// 	display: {
+					// 		...context.display,
+					// 		blinkingChars: [newEditCharIndex],
+					// 	},
+					// };
 				}),
 			],
 		},
@@ -46,11 +60,10 @@ export const patternChooseStepState: StateNodeConfig<
 	states: {},
 	entry: assign(({ context }) => {
 		return {
+			...context,
 			display: {
 				...context.display,
-				blinkingChars: [context.currentEditCharIndex],
-				blinkingDelay: E_DISPLAY_BLINKING_DELAYS.LONG,
-				text: getPatternDisplay({ context }).value,
+				blinkingDelay: E_DISPLAY_BLINKING_DELAYS.SHORT,
 			},
 		};
 	}),

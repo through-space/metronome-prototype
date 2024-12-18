@@ -48,6 +48,7 @@ export const tempoState: StateNodeConfig<
 			display: {
 				...context.display,
 				text: getTempoDisplay({ context }).value,
+				blinkingChars: [],
 			},
 		};
 	}),

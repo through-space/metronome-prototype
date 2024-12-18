@@ -37,14 +37,14 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 		}
 
 		if (Math.abs(newKnobValue - knobValue) >= knobStep) {
-			onChange(change);
+			onChange && onChange(change);
 			setKnobValue(roundedNewKnobValue);
 		}
 	};
 
-	const bind =
-		onLongPress &&
-		useLongPress(onLongPress, { threshold: longClickThreshold });
+	const longPress = useLongPress(onLongPress, {
+		threshold: longClickThreshold,
+	});
 
 	return (
 		<ButtonKnobWrapper>
@@ -58,7 +58,7 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 			/>
 			<ButtonKnobInnerButtonWrapper
 				onClick={onClick}
-				{...bind()}
+				{...longPress()}
 			></ButtonKnobInnerButtonWrapper>
 		</ButtonKnobWrapper>
 	);

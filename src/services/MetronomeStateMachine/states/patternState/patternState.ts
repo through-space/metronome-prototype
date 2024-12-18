@@ -6,6 +6,7 @@ import {
 } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
 import { patternChooseStepState } from "@services/MetronomeStateMachine/states/patternState/states/patternChooseStepState";
+import { patternStepTypeState } from "@services/MetronomeStateMachine/states/patternState/states/patternStepTypeState";
 
 export const patternState: StateNodeConfig<
 	IPatternStateContext,
@@ -28,8 +29,15 @@ export const patternState: StateNodeConfig<
 	},
 	states: {
 		patternChooseStepState,
+		patternStepTypeState,
 	},
-	entry: assign({
-		currentEditCharIndex: 0,
+	entry: assign(({ context }) => {
+		if (context.currentEditCharIndex === undefined) {
+			return {
+				currentEditCharIndex: 0,
+			};
+		}
+
+		return {};
 	}),
 };

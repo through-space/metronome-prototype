@@ -1,37 +1,23 @@
 import { EStep } from "@hooks/useTimer/useTimerInterfaces";
-import {
-	IStateMenuContext,
-	TGetStateMenuDisplayFunc,
-} from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
-import { IPatternStateContext } from "@services/MetronomeStateMachine/states/patternState/patternStateInterfaces";
-import { IKnobTurnEvent } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import { TGetStateMenuDisplayFunc } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
 
 const EMPTY_CHAR = " ";
 
-const patternCharMap = new Map<EStep, string>([
+export const patternCharMap = new Map<EStep, string>([
 	[EStep.HIGH, "*"],
 	[EStep.LOW, "o"],
 	[EStep.PAUSE, "_"],
 ]);
 
-export const getPatternDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
-	return {
-		value: context.pattern
-			.map((step) =>
-				patternCharMap.has(step)
-					? patternCharMap.get(step)
-					: EMPTY_CHAR,
-			)
-			.join(""),
-		blinkingChars: [0],
-	};
+export const stepTypes = Array.from(patternCharMap.keys());
+
+export const getDisplayChar = (step: EStep) => {
+	return patternCharMap.has(step) ? patternCharMap.get(step) : EMPTY_CHAR;
 };
 
-export const getNewCharIndex = (
-	context: IPatternStateContext,
-	event: IKnobTurnEvent,
-): number => {
-	return Math.abs(
-		(context.currentEditCharIndex + event.value) % context.pattern.length,
-	);
+export const getPatternDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
+	return {
+		value: context.pattern.map((step) => getDisplayChar(step)).join(""),
+		blinkingChars: [0],
+	};
 };

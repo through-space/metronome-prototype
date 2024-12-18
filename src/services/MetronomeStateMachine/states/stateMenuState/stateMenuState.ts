@@ -9,7 +9,7 @@ import {
 	getNextStateOptionIndex,
 	getStateMenuDisplay,
 } from "@services/MetronomeStateMachine/states/stateMenuState/stateMenuStateConsts";
-import { DELAY_TYPE } from "@config/MetronomeConfig";
+import { E_DISPLAY_BLINKING_DELAYS } from "@config/MetronomeConfig";
 
 export const stateMenuState: StateNodeConfig<
 	IStateMenuContext,
@@ -75,7 +75,7 @@ export const stateMenuState: StateNodeConfig<
 			display: {
 				...context.display,
 				blinkingChars: [0, 1, 2, 3],
-				blinkingDelay: DELAY_TYPE.LONG,
+				blinkingDelay: E_DISPLAY_BLINKING_DELAYS.LONG,
 			},
 		};
 	}),

@@ -1,6 +1,7 @@
 import { assign, createMachine } from "xstate";
 import { INIT_METRONOME_STATE } from "@services/MetronomeStateMachine/MetronomeStateMachineConsts";
 import {
+	EMetronomeEvent,
 	EStateMachineState,
 	IMetronomeContext,
 	TMetronomeEvent,
@@ -18,11 +19,16 @@ export const MetronomeStateMachine = createMachine(
 		},
 		initial: EStateMachineState.tempoState,
 		on: {
-			"startStopButton.click": {
+			[EMetronomeEvent.START_STOP_CLICK]: {
 				actions: assign(({ context }) => {
 					return {
 						isPlaying: !context.isPlaying,
 					};
+				}),
+			},
+			[EMetronomeEvent.TICK_TRIGGER]: {
+				actions: assign(({ context }) => {
+					return { tickTrigger: !context.tickTrigger };
 				}),
 			},
 		},
