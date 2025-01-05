@@ -24,7 +24,6 @@ export const TimerStateMachine = setup<
 	// MetaObject
 >({}).createMachine({
 	initial: ETimerMachineState.idleState,
-	// context: DEFAULT_TIMER_CONTEXT,
 	context: ({ input }) => ({
 		...DEFAULT_TIMER_CONTEXT,
 		...input,

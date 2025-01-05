@@ -62,7 +62,7 @@ export const Metronome = () => {
 					});
 				}}
 			/>
-			<LED trigger={false} delay={60} />
+			<LED trigger={metronomeState.context.tickTrigger} delay={60} />
 		</>
 	);
 };

@@ -6,7 +6,6 @@ import {
 import { EStep } from "@config/commonInterfaces";
 
 export const INIT_METRONOME_STATE: IMetronomeContext = {
-	//TODO: change to DEFAULT_TEMPO
 	tempo: DEFAULT_TEMPO,
 	pattern: [EStep.HIGH, EStep.LOW, EStep.LOW, EStep.LOW],
 	isPlaying: false,

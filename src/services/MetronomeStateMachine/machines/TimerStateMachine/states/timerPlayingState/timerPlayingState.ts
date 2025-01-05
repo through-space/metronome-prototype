@@ -42,13 +42,12 @@ export const playingState: StateNodeConfig<
 		}),
 	],
 
-	// exit: ({ context }) => {
-	// raise();
-	// if (context.timeIntervalId) {
-	// clearInterval(context.timeIntervalId);
-	// assign({ timeIntervalId: null });
-	// }
-	// },
-	// exit:{},
-	// entry: {}
+	exit: [
+		({ context }) => {
+			if (context.timeIntervalId) {
+				clearInterval(context.timeIntervalId);
+			}
+		},
+		assign({ timeIntervalId: null }),
+	],
 };

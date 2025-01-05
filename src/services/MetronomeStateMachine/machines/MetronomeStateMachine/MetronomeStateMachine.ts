@@ -44,6 +44,13 @@ export const MetronomeStateMachine = setup<
 					input: {
 						callbacks: [
 							(step: EStep) => {
+								assign(({ context }) => {
+									return {
+										tickTrigger: !context.tickTrigger,
+									};
+								});
+							},
+							(step: EStep) => {
 								console.log(`callback - step: ${step}`);
 							},
 						],
@@ -54,13 +61,17 @@ export const MetronomeStateMachine = setup<
 	on: {
 		[EMetronomeEvent.START_STOP_CLICK]: {
 			actions: [
+				sendTo(SINGLE_TIMER_MACHINE_ID, ({ context }) => {
+					return {
+						type: context.isPlaying
+							? ETimerStateMachineEventType.STOP
+							: ETimerStateMachineEventType.START,
+					};
+				}),
 				assign(({ context }) => {
 					return {
 						isPlaying: !context.isPlaying,
 					};
-				}),
-				sendTo(SINGLE_TIMER_MACHINE_ID, {
-					type: ETimerStateMachineEventType.START,
 				}),
 			],
 		},
