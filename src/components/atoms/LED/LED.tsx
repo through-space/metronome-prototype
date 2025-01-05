@@ -9,7 +9,7 @@ export const LED = (props: ILEDProps) => {
 	useEffect(() => {
 		setIsOn(true);
 		setTimeout(() => setIsOn(false), delay);
-	}, [trigger]);
+	}, [trigger, delay]);
 
 	return <LEDStyledComponent $isOn={isOn} />;
 };

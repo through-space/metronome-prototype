@@ -37,7 +37,7 @@ export const ButtonKnob = (props: IButtonKnobProps) => {
 		}
 
 		if (Math.abs(newKnobValue - knobValue) >= knobStep) {
-			onChange && onChange(change);
+			const res = onChange && onChange(change);
 			setKnobValue(roundedNewKnobValue);
 		}
 	};

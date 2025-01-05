@@ -1,26 +1,23 @@
 import { SegmentsDisplay } from "@components/molecules/SegmentsDisplay/SegmentsDisplay";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { ButtonKnob } from "@components/molecules/ButtonKnob/ButtonKnob";
-import {
-	blinkLED,
-	playSound,
-} from "@components/organisms/Metronome/MetronomeConsts";
-import { useTimer } from "@hooks/useTimer/useTimer";
 import { LED } from "@components/atoms/LED/LED";
-import { DEFAULT_SOUND } from "@config/MetronomeConfig";
-import { MetronomeStateMachine } from "@services/MetronomeStateMachine/MetronomeStateMachine";
+import { DEFAULT_SOUND } from "@config/metronomeConfig";
+import { MetronomeStateMachine } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachine";
 import { useMachine } from "@xstate/react";
 import { StartStopButton } from "@components/atoms/StartStopButton/StartStopButton";
-import { EMetronomeEvent } from "@services/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export const Metronome = () => {
-	const [ledTrigger, setLedTrigger] = useState<boolean>(false);
+	// const [ledTrigger, setLedTrigger] = useState<boolean>(false);
 	const audioRef = useRef<HTMLAudioElement>(new Audio(DEFAULT_SOUND));
 	const [metronomeState, metronomeStateSend] = useMachine(
 		MetronomeStateMachine,
 	);
 
-	useTimer({
+	/**
+	 *
+	useTimer_remove({
 		pattern: metronomeState.context.pattern,
 		isPlaying: metronomeState.context.isPlaying,
 		tempo: metronomeState.context.tempo,
@@ -30,6 +27,7 @@ export const Metronome = () => {
 			(step) => blinkLED(setLedTrigger),
 		],
 	});
+	 */
 
 	return (
 		<>
@@ -64,7 +62,7 @@ export const Metronome = () => {
 					});
 				}}
 			/>
-			<LED trigger={ledTrigger} delay={60} />
+			<LED trigger={false} delay={60} />
 		</>
 	);
 };

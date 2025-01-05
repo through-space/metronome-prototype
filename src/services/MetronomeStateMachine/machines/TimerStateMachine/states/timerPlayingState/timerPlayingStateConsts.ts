@@ -1,0 +1,35 @@
+import { ITimerIntervalProps } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
+
+import { EStep } from "@config/commonInterfaces";
+
+const DEFAULT_TIME_INTERVAL = 1000;
+
+const getTimerIntervalDelay = (tempo: number): number => {
+	if (tempo <= 0) {
+		return DEFAULT_TIME_INTERVAL;
+	}
+
+	return (60 * 1000) / tempo;
+};
+
+export const getTimerInterval = ({
+	tempo,
+	onTickHandler,
+}: ITimerIntervalProps): NodeJS.Timeout => {
+	const delay = getTimerIntervalDelay(tempo);
+
+	const handlers = Array.isArray(onTickHandler)
+		? onTickHandler
+		: onTickHandler
+			? [onTickHandler]
+			: [];
+
+	return setInterval(() => {
+		if (handlers) {
+			handlers.forEach((handler) => {
+				handler(EStep.LOW);
+			});
+		}
+		console.log("tick");
+	}, delay);
+};

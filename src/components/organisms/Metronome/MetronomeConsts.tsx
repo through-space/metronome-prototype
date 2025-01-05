@@ -1,6 +1,7 @@
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { EStep } from "@hooks/useTimer/useTimerInterfaces";
-import { CLICK_VOLUMES_MAP, DEFAULT_VOLUME } from "@config/MetronomeConfig";
+import { CLICK_VOLUMES_MAP, DEFAULT_VOLUME } from "@config/metronomeConfig";
+
+import { EStep } from "@config/commonInterfaces";
 
 export const blinkLED = (setLedTrigger: Dispatch<SetStateAction<boolean>>) => {
 	setLedTrigger((prevTrigger) => !prevTrigger);
