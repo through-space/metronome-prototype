@@ -1,6 +1,7 @@
 import { ITimerIntervalProps } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
 
 import { EStep } from "@config/commonInterfaces";
+import { sendParent } from "xstate";
 
 const DEFAULT_TIME_INTERVAL = 1000;
 
@@ -25,6 +26,7 @@ export const getTimerInterval = ({
 			: [];
 
 	return setInterval(() => {
+		// sendParent({ type: "ACTION1", data: "Updated by child" });
 		if (handlers) {
 			handlers.forEach((handler) => {
 				handler(EStep.LOW);
@@ -33,3 +35,5 @@ export const getTimerInterval = ({
 		console.log("tick");
 	}, delay);
 };
+
+export const INTERVAL_ACTOR_ID = "intervalActor";

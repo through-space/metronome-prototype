@@ -16,7 +16,6 @@ import { stateMenuState } from "@services/MetronomeStateMachine/machines/Metrono
 import { patternState } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/patternState/patternState";
 import { ParameterizedObject } from "xstate/dist/declarations/src/types";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import { EStep } from "@config/commonInterfaces";
 
 export const MetronomeStateMachine = setup<
 	IMetronomeContext,
@@ -38,22 +37,11 @@ export const MetronomeStateMachine = setup<
 	initial: EStateMachineState.tempoState,
 	entry: [
 		assign({
-			timerStateMachineRef: ({ spawn }) =>
+			timerStateMachineRef: ({ spawn, self }) =>
 				spawn(TimerStateMachine, {
 					id: SINGLE_TIMER_MACHINE_ID,
 					input: {
-						callbacks: [
-							(step: EStep) => {
-								assign(({ context }) => {
-									return {
-										tickTrigger: !context.tickTrigger,
-									};
-								});
-							},
-							(step: EStep) => {
-								console.log(`callback - step: ${step}`);
-							},
-						],
+						metronomeStateMachine: self,
 					},
 				}),
 		}),
@@ -75,12 +63,24 @@ export const MetronomeStateMachine = setup<
 				}),
 			],
 		},
-		//TODO: do i need it?
 		[EMetronomeEvent.TICK_TRIGGER]: {
-			actions: assign(({ context }) => {
-				return { tickTrigger: !context.tickTrigger };
-			}),
+			actions: [
+				() => {
+					console.log("MetronomeStateMachine: Tick Triggered");
+				},
+				assign(({ context: { tickTrigger } }) => {
+					return {
+						tickTrigger: !tickTrigger,
+					};
+				}),
+			],
 		},
+		//TODO: do i need it?
+		// [EMetronomeEvent.TICK_TRIGGER]: {
+		// 	actions: assign(({ context }) => {
+		// 		return { tickTrigger: !context.tickTrigger };
+		// 	}),
+		// },
 	},
 	context: INIT_METRONOME_STATE,
 	states: {

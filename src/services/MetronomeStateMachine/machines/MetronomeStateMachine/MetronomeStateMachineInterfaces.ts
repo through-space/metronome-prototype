@@ -1,9 +1,13 @@
-import { ParameterizedObject } from "xstate";
-import { ActorRefFromLogic } from "xstate/dist/declarations/src/types";
+import { AnyActorRef, MachineSnapshot, ParameterizedObject } from "xstate";
+import {
+	ActorRefFromLogic,
+	AnyEventObject,
+} from "xstate/dist/declarations/src/types";
 import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachine";
 import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
 
 import { EStep } from "@config/commonInterfaces";
+import { a } from "vite/dist/node/types.d-aGj9QkWt";
 
 export enum EMetronomeEvent {
 	KNOB_TURN = "knob.turn",
@@ -13,25 +17,26 @@ export enum EMetronomeEvent {
 	TICK_TRIGGER = "timer.tick",
 }
 
-export interface IKnobTurnEvent {
+export interface IKnobTurnEvent extends AnyEventObject {
 	type: EMetronomeEvent.KNOB_TURN;
 	value: number;
 }
 
-export interface IKnobClickEvent {
+export interface IKnobClickEvent extends AnyEventObject {
 	type: EMetronomeEvent.KNOB_CLICK;
 }
 
-export interface IKnobLongClickEvent {
+export interface IKnobLongClickEvent extends AnyEventObject {
 	type: EMetronomeEvent.KNOB_LONG_CLICK;
 }
 
-export interface IStartStopButtonClick {
+export interface IStartStopButtonClick extends AnyEventObject {
 	type: EMetronomeEvent.START_STOP_CLICK;
 }
 
-export interface ITickTriggerEvent {
+export interface ITickTriggerEvent extends AnyEventObject {
 	type: EMetronomeEvent.TICK_TRIGGER;
+	step?: EStep;
 }
 
 export interface IDisplayState {
@@ -74,3 +79,14 @@ export interface IActionOpenMenu extends ParameterizedObject {
 
 export type TMetronomeAction = IActionOpenMenu;
 export type TMetronomeActorLogic = ITimerStateMachineActorLogic;
+
+export type IMetronomeMachineSnapshot = MachineSnapshot<
+	IMetronomeContext,
+	TMetronomeEvent,
+	Record<string, AnyActorRef>,
+	any,
+	any,
+	any,
+	any,
+	any
+>;

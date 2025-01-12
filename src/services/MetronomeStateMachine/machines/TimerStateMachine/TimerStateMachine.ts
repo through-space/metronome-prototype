@@ -7,12 +7,14 @@ import {
 import { DEFAULT_TIMER_CONTEXT } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineConsts";
 import { idleState } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerIdleState/timerPlayingState";
 import { playingState } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingState";
+import { TMetronomeActorLogic } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export const TimerStateMachine = setup<
 	ITimerStateMachineContext,
-	TTimerStateMachineEvent
-	// any
-	// Record<string, UnknownActorLogic>,
+	TTimerStateMachineEvent,
+	Record<string, TMetronomeActorLogic>
+	// Record<string, UnknownActorLogic>
+
 	// Record<string, string>,
 	// Record<string, ParameterizedObject["params"] | undefined>,
 	// Record<string, ParameterizedObject["params"] | undefined>,
@@ -24,6 +26,7 @@ export const TimerStateMachine = setup<
 	// MetaObject
 >({}).createMachine({
 	initial: ETimerMachineState.idleState,
+	// initial: ETimerMachineState.playingState,
 	context: ({ input }) => ({
 		...DEFAULT_TIMER_CONTEXT,
 		...input,
