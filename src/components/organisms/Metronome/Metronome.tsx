@@ -5,6 +5,7 @@ import { StartStopButton } from "@components/molecules/StartStopButton/StartStop
 import { SegmentsDisplay } from "@components/atoms/SegmentsDisplay/SegmentsDisplay";
 import { MetronomeDisplay } from "@components/molecules/MetronomeDisplay/MetronomeDisplay";
 import { ButtonKnob } from "@components/molecules/ButtonKnob/ButtonKnob";
+import { LED } from "@components/atoms/LED/LED";
 
 export const Metronome = () => {
 	// const [ledTrigger, setLedTrigger] = useState<boolean>(false);
@@ -42,30 +43,10 @@ export const Metronome = () => {
 				<MetronomeDisplay />
 				<StartStopButton />
 				<div>Test Re-Rendering</div>
-				{/*<div>State1: {metronomeState.value.toString()}</div>*/}
-				{/*<SegmentsDisplay*/}
-				{/*	value={metronomeState.context.display.text}*/}
-				{/*	blinkingChars={metronomeState.context.display.blinkingChars}*/}
-				{/*	blinkingDelay={metronomeState.context.display.blinkingDelay}*/}
-				{/*/>*/}
 				<ButtonKnob />
+				<LED delay={60} />
 			</MetronomeMachineContextProvider>
-			{/*<ButtonKnob*/}
-			{/*	onChange={(steps) =>*/}
-			{/*		metronomeStateSend({*/}
-			{/*			type: EMetronomeEvent.KNOB_TURN,*/}
-			{/*			value: steps,*/}
-			{/*		})*/}
-			{/*	}*/}
-			{/*	onClick={() =>*/}
-			{/*		metronomeStateSend({ type: EMetronomeEvent.KNOB_CLICK })*/}
-			{/*	}*/}
-			{/*	onLongPress={() => {*/}
-			{/*		metronomeStateSend({*/}
-			{/*			type: EMetronomeEvent.KNOB_LONG_CLICK,*/}
-			{/*		});*/}
-			{/*	}}*/}
-			{/*/>*/}
+
 			{/*<LED trigger={metronomeState.context.tickTrigger} delay={60} />*/}
 		</>
 	);

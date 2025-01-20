@@ -7,3 +7,7 @@ export const selectIsPlaying = (snapshot: IMetronomeMachineSnapshot) => {
 export const selectDisplayState = (snapshot: IMetronomeMachineSnapshot) => {
 	return snapshot.context.display;
 };
+
+export const selectTickTrigger = (snapshot: IMetronomeMachineSnapshot) => {
+	return snapshot.context.tickTrigger;
+};
