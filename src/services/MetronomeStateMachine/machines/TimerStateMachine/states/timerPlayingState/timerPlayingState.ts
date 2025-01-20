@@ -10,21 +10,18 @@ import {
 	ETimerMachineState,
 	ETimerStateMachineEventType,
 	ITimerStateMachineContext,
+	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import {
-	IIntervalStateMachineActorLogic,
-	TTimerPlayingStateEvent,
-} from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
 import { INTERVAL_ACTOR_ID } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateConsts";
 
 export const playingState: StateNodeConfig<
 	ITimerStateMachineContext,
 	//TODO: do I get start/stop
 	// TTimerStateMachineEvent | TTimerPlayingStateEvent,
-	TTimerPlayingStateEvent,
-	{ src: string; logic: IIntervalStateMachineActorLogic },
-	// { id: string; src: any; logic: IIntervalStateMachineActorLogic },
+	TTimerStateMachineEvent,
+	//TODO: remove any
+	any,
 	never,
 	never,
 	never,

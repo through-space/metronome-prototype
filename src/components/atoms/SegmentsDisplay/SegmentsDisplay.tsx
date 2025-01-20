@@ -2,13 +2,13 @@ import { Display } from "7-segment-display/src";
 import charToDigit, {
 	ICharToDigit,
 } from "7-segment-display/src/utils/charToDigit";
-import { ISegmentsDisplayProps } from "@components/molecules/SegmentsDisplay/SegmentsDisplayInterfaces";
+import { ISegmentsDisplayProps } from "@components/atoms/SegmentsDisplay/SegmentsDisplayInterfaces";
 import { useEffect } from "react";
 import {
 	DEFAULT_BLINKING_DELAY,
 	getBlinkingText,
-} from "@components/molecules/SegmentsDisplay/SegmentsDisplayConsts";
-import { useBlinking } from "@components/molecules/SegmentsDisplay/hooks/useBlinking";
+} from "@components/atoms/SegmentsDisplay/SegmentsDisplayConsts";
+import { useBlinking } from "@components/atoms/SegmentsDisplay/hooks/useBlinking";
 
 export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	const {

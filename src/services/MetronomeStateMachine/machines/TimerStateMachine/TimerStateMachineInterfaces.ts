@@ -58,14 +58,19 @@ export interface ITimerSetTempoEvent {
 	tempo: number;
 }
 
-export interface ITimerClearIntervalEvent {
-	type: ETimerStateMachineEventType.CLEAR_INTERVAL;
+// export interface ITimerClearIntervalEvent {
+// 	type: ETimerStateMachineEventType.CLEAR_INTERVAL;
+// }
+
+export interface ITimerTickEvent {
+	type: ETimerStateMachineEventType.TICK;
 }
 
 export type TTimerStateMachineEvent =
 	| ITimerStartEvent
 	| ITimerStopEvent
-	| ITimerSetTempoEvent;
+	| ITimerSetTempoEvent
+	| ITimerTickEvent;
 
 // export interface IIntervalCallbackActor = Actor
 

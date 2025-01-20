@@ -4,60 +4,64 @@ import {
 	ButtonKnobInnerButtonWrapper,
 	ButtonKnobWrapper,
 } from "@components/molecules/ButtonKnob/ButtonKnobStyledComponents";
-import { IButtonKnobProps } from "@components/molecules/ButtonKnob/ButtonKnobInterfaces";
 import { useLongPress } from "use-long-press";
 import {
-	changeThreshold,
-	knobStep,
-	longClickThreshold,
-	maxKnobValue,
-	minKnobValue,
+	getAdjustedNewKnobValue,
+	getKnobChangeValue,
+	KNOB_STEP,
+	LONG_CLICK_THRESHOLD,
+	MAX_KNOB_VALUE,
+	MIN_KNOB_VALUE,
 } from "@components/molecules/ButtonKnob/ButtonKnobConsts";
+import { MetronomeStateMachineContext } from "../../../context/MetronomeMachineContext/MetronomeMachineContext";
+import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
-export const ButtonKnob = (props: IButtonKnobProps) => {
-	const { onChange, onClick, onLongPress } = props;
+export const ButtonKnob = () => {
+	const metronomeMachineRef = MetronomeStateMachineContext.useActorRef();
 
 	const [knobValue, setKnobValue] = useState<number>(0);
 
-	const handleChange = (newKnobValue: number) => {
-		const roundedNewKnobValue = Math.round(newKnobValue);
-		let change = roundedNewKnobValue - knobValue;
+	const longPress = useLongPress(
+		() => {
+			metronomeMachineRef.send({ type: EMetronomeEvent.KNOB_LONG_CLICK });
+		},
+		{
+			threshold: LONG_CLICK_THRESHOLD,
+		},
+	);
 
-		if (!change) {
+	const handleKnobTurn = (newKnobValue: number) => {
+		const change = getKnobChangeValue(knobValue, newKnobValue);
+
+		if (Math.abs(newKnobValue - knobValue) < KNOB_STEP || change === 0) {
 			return;
 		}
 
-		//TODO: extract to consts
-		if (Math.abs(change) > changeThreshold) {
-			if (change > 0) {
-				change = roundedNewKnobValue - maxKnobValue - knobValue;
-			} else {
-				change = maxKnobValue - knobValue + roundedNewKnobValue;
-			}
-		}
+		const calculatedNewKnobValue = getAdjustedNewKnobValue(newKnobValue);
+		setKnobValue(calculatedNewKnobValue);
 
-		if (Math.abs(newKnobValue - knobValue) >= knobStep) {
-			const res = onChange && onChange(change);
-			setKnobValue(roundedNewKnobValue);
-		}
+		metronomeMachineRef.send({
+			type: EMetronomeEvent.KNOB_TURN,
+			value: change,
+		});
 	};
-
-	const longPress = useLongPress(onLongPress, {
-		threshold: longClickThreshold,
-	});
 
 	return (
 		<ButtonKnobWrapper>
 			<Knob
 				step={1}
-				onChange={handleChange}
+				onChange={handleKnobTurn}
 				preciseMode={false}
 				value={knobValue}
-				min={minKnobValue}
-				max={maxKnobValue}
+				min={MIN_KNOB_VALUE}
+				max={MAX_KNOB_VALUE}
 			/>
 			<ButtonKnobInnerButtonWrapper
-				onClick={onClick}
+				onClick={() =>
+					metronomeMachineRef.send({
+						type: EMetronomeEvent.KNOB_CLICK,
+					})
+				}
 				{...longPress()}
 			></ButtonKnobInnerButtonWrapper>
 		</ButtonKnobWrapper>

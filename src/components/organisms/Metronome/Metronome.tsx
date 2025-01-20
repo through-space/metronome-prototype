@@ -2,6 +2,9 @@ import React, { useRef } from "react";
 import { DEFAULT_SOUND } from "@config/metronomeConfig";
 import { MetronomeMachineContextProvider } from "../../../context/MetronomeMachineContext/MetronomeMachineContextProvider";
 import { StartStopButton } from "@components/molecules/StartStopButton/StartStopButton";
+import { SegmentsDisplay } from "@components/atoms/SegmentsDisplay/SegmentsDisplay";
+import { MetronomeDisplay } from "@components/molecules/MetronomeDisplay/MetronomeDisplay";
+import { ButtonKnob } from "@components/molecules/ButtonKnob/ButtonKnob";
 
 export const Metronome = () => {
 	// const [ledTrigger, setLedTrigger] = useState<boolean>(false);
@@ -36,6 +39,7 @@ export const Metronome = () => {
 	return (
 		<>
 			<MetronomeMachineContextProvider>
+				<MetronomeDisplay />
 				<StartStopButton />
 				<div>Test Re-Rendering</div>
 				{/*<div>State1: {metronomeState.value.toString()}</div>*/}
@@ -44,6 +48,7 @@ export const Metronome = () => {
 				{/*	blinkingChars={metronomeState.context.display.blinkingChars}*/}
 				{/*	blinkingDelay={metronomeState.context.display.blinkingDelay}*/}
 				{/*/>*/}
+				<ButtonKnob />
 			</MetronomeMachineContextProvider>
 			{/*<ButtonKnob*/}
 			{/*	onChange={(steps) =>*/}
