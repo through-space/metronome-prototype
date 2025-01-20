@@ -6,7 +6,6 @@ export const getUpdatedTempo = (
 	tempoIncrement: number,
 ): number => {
 	const newTempo = tempo + tempoIncrement;
-	console.log("newTempo", tempo, tempoIncrement, newTempo);
 	if (newTempo > MAX_TEMPO) {
 		return MAX_TEMPO;
 	} else if (newTempo < MIN_TEMPO) {
