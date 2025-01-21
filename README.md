@@ -13,8 +13,8 @@ npm run dev
 ```
 
 ## ToDo
-- [ ] Timer Fix initial step
-- [ ] Blink LED
-- [ ] Fix: 
+- [x] Timer Fix initial step
+- [x] Blink LED 
+- [ ] Remove Delay??
   [Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence
 - [x] Timer doesn't stop on exit
