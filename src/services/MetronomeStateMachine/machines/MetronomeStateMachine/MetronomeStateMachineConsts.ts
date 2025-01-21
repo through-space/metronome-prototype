@@ -10,6 +10,7 @@ export const INIT_METRONOME_STATE: IMetronomeContext = {
 	pattern: [EStep.HIGH, EStep.LOW, EStep.LOW, EStep.LOW],
 	isPlaying: false,
 	lastState: "tempoState",
+	currentStep: -1,
 	tickTrigger: false,
 	display: {
 		text: DEFAULT_TEMPO.toString(),

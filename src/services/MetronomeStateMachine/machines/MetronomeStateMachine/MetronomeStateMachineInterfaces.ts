@@ -56,6 +56,7 @@ export interface IMetronomeContext {
 	tempo: number;
 	tickTrigger: boolean;
 	pattern: EStep[];
+	currentStep: number;
 	isPlaying: boolean;
 	lastState: string;
 	display: IDisplayState;

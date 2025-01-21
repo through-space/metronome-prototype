@@ -32,7 +32,6 @@ export const getTimerInterval = ({
 				handler(EStep.LOW);
 			});
 		}
-		console.log("tick");
 	}, delay);
 };
 

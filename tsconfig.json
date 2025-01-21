@@ -16,6 +16,9 @@
       ],
       "@config/*": [
         "src/config/*"
+      ],
+      "@context/*": [
+        "src/context/*"
       ]
     },
     "jsx": "react-jsx",

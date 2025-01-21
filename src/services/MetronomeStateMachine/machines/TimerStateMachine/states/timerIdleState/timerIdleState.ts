@@ -21,10 +21,10 @@ export const idleState: StateNodeConfig<
 	on: {
 		[ETimerStateMachineEventType.START]: ETimerMachineState.playingState,
 	},
-	entry: ({ context }) => {
-		console.log("entering idle state");
-		console.log("context", context);
-	},
+	// entry: ({ context }) => {
+	// 	console.log("entering idle state");
+	// 	console.log("context", context);
+	// },
 	// exit:{},
 	// entry: {}
 };

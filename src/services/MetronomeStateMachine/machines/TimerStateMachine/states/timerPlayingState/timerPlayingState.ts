@@ -55,14 +55,10 @@ export const playingState: StateNodeConfig<
 					emit,
 				}) => {
 					const delay = 60000 / tempo;
+					sendBack({ type: ETimerStateMachineEventType.TICK });
 					const interval = setInterval(() => {
 						sendBack({ type: ETimerStateMachineEventType.TICK });
 					}, delay);
-					// console.log(system);
-					// sendBack({
-					// 	type: EMetronomeEvent.TICK_TRIGGER,
-					// });
-					// sendTo(input.metronomeStateMachineRef, );
 
 					return () => {
 						clearInterval(interval);
@@ -73,62 +69,7 @@ export const playingState: StateNodeConfig<
 				return { tempo };
 			},
 		},
-		// ({ con }) => {
-		// 	return { src: fromCallback(() => {}) };
-		// },
-		// {
-		// 	id: "Interval",
-		// 	src: fromCallback(() => {
-		// 		const interval = setInterval(() => {
-		// 			console.log("Interval service ticked");
-		// 		}, 2000);
-		// 		console.log("service Interval invoked");
-		//
-		// 		// sendTo("")
-		// 		return () => {
-		// 			clearInterval(interval);
-		// 		};
-		// 	}),
-		// },
-		// spawnChild(fromCallback(()=>{}))
 	],
-	// src: "hello",
-	// src: (context) => (cb) => {
-	// 	const interval = setInterval(() => {
-	// 		// Send the event
-	// 		// cb(Event.Tick);
-	// 	}, 1000);
-	// 	return () => {
-	// 		clearInterval(interval);
-	// 	};
-	// },
-	// },
-	entry: [
-		({ context }) => {
-			console.log("entering playing state");
-			console.log("context", context);
-		},
-		// sendParent((_, event) => ({
-		// 	type: "ACTION_PARENT",
-		// 	data: "",
-		// })),
-		// sendParent({ type: "ACTION_PARENT" }),
-		// sendParent({ type: "ACTION_TIMER" }),
-		// assign(({ context, self }) => {
-		// 	return {
-		// 		timeIntervalId: getTimerInterval({
-		// 			tempo: context.tempo,
-		// 			onTickHandler: () => {
-		// 				console.log("in handler");
-		// 				sendTo(({ context }) => context.parentRef, {
-		// 					type: EMetronomeEvent.TICK_TRIGGER,
-		// 				});
-		// 			},
-		// 		}),
-		// 	};
-		// }),
-	],
-
 	exit: [
 		({ context }) => {
 			if (context.timeIntervalId) {

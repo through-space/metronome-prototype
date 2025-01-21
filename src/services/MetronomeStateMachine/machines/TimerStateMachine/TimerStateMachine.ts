@@ -5,7 +5,7 @@ import {
 	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 import { DEFAULT_TIMER_CONTEXT } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineConsts";
-import { idleState } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerIdleState/timerPlayingState";
+import { idleState } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerIdleState/timerIdleState";
 import { playingState } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingState";
 import { TMetronomeActorLogic } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
@@ -30,8 +30,5 @@ export const TimerStateMachine = setup<
 		...DEFAULT_TIMER_CONTEXT,
 		...input,
 	}),
-	entry: () => {
-		console.log("TimerStateMachine on entry");
-	},
 	states: { idleState, playingState },
 });

@@ -16,18 +16,3 @@ export enum E_DISPLAY_BLINKING_DELAYS {
 export const DEFAULT_BLINKING_DELAY = E_DISPLAY_BLINKING_DELAYS.LONG;
 
 export const DEFAULT_PATTERN = [EStep.HIGH, EStep.LOW, EStep.LOW, EStep.LOW];
-
-const SOUND_MAP: Record<string, string> = {
-	sound1: sound1,
-	sound2: sound2,
-};
-
-export const DEFAULT_SOUND_FILE = "sound1";
-
-export const DEFAULT_SOUND = SOUND_MAP[DEFAULT_SOUND_FILE];
-
-export const CLICK_VOLUMES_MAP: Record<EStep, number> = {
-	[EStep.PAUSE]: 0,
-	[EStep.LOW]: 0.3,
-	[EStep.HIGH]: 0.8,
-};

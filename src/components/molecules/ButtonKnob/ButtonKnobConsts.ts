@@ -1,5 +1,3 @@
-import { Simulate } from "react-dom/test-utils";
-
 const getCalculatedThreshold = (
 	minKnobValue: number,
 	maxKnobValue: number,

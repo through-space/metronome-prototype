@@ -16,6 +16,7 @@ import { stateMenuState } from "@services/MetronomeStateMachine/machines/Metrono
 import { patternState } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/patternState/patternState";
 import { ParameterizedObject } from "xstate/dist/declarations/src/types";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
+import { context } from "esbuild";
 
 export const MetronomeStateMachine = setup<
 	IMetronomeContext,
@@ -59,28 +60,21 @@ export const MetronomeStateMachine = setup<
 				assign(({ context }) => {
 					return {
 						isPlaying: !context.isPlaying,
+						currentStep: -1, //Offset for first click
 					};
 				}),
 			],
 		},
 		[EMetronomeEvent.TICK_TRIGGER]: {
 			actions: [
-				() => {
-					console.log("MetronomeStateMachine: Tick Triggered");
-				},
-				assign(({ context: { tickTrigger } }) => {
+				assign(({ context: { tickTrigger, currentStep, pattern } }) => {
 					return {
 						tickTrigger: !tickTrigger,
+						currentStep: (currentStep + 1) % pattern.length,
 					};
 				}),
 			],
 		},
-		//TODO: do i need it?
-		// [EMetronomeEvent.TICK_TRIGGER]: {
-		// 	actions: assign(({ context }) => {
-		// 		return { tickTrigger: !context.tickTrigger };
-		// 	}),
-		// },
 	},
 	context: INIT_METRONOME_STATE,
 	states: {
