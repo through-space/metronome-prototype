@@ -13,7 +13,7 @@ import {
 	MAX_KNOB_VALUE,
 	MIN_KNOB_VALUE,
 } from "@components/molecules/ButtonKnob/ButtonKnobConsts";
-import { MetronomeStateMachineContext } from "../../../context/MetronomeMachineContext/MetronomeMachineContext";
+import { MetronomeStateMachineContext } from "@context/MetronomeMachineContext/MetronomeMachineContext";
 import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export const ButtonKnob = () => {
