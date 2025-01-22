@@ -3,6 +3,7 @@ import {
 	EMetronomeEvent,
 	EStateMachineState,
 	TMetronomeAction,
+	TMetronomeActorLogic,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { IPatternStateContext } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/patternState/patternStateInterfaces";
@@ -12,14 +13,25 @@ import { patternStepTypeState } from "@services/MetronomeStateMachine/machines/M
 export const patternState: StateNodeConfig<
 	IPatternStateContext,
 	TMetronomeEvent,
-	never,
-	TMetronomeAction,
-	never,
-	never,
-	string,
-	{},
-	EventObject,
-	MetaObject
+	{
+		src: string;
+		logic: TMetronomeActorLogic;
+		id?: string;
+	},
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any
+	// TMetronomeAction,
+	// never,
+	// never,
+	// string,
+	// {},
+	// EventObject,
+	// MetaObject
 > = {
 	id: EStateMachineState.patternState,
 	initial: "patternChooseStepState",

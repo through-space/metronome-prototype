@@ -8,6 +8,7 @@ import {
 import {
 	EMetronomeEvent,
 	TMetronomeAction,
+	TMetronomeActorLogic,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import {
@@ -19,14 +20,27 @@ import { IStateMenuContext } from "@services/MetronomeStateMachine/machines/Metr
 export const tempoState: StateNodeConfig<
 	IStateMenuContext,
 	TMetronomeEvent,
-	{ src: string; logic: UnknownActorLogic; id: string },
-	TMetronomeAction,
+	{
+		src: string;
+		logic: TMetronomeActorLogic;
+		id?: string;
+	},
+	// any,
 	any,
 	any,
-	string,
-	{},
-	EventObject,
-	MetaObject
+	any,
+	any,
+	any,
+	any,
+	any
+	// { src: string; logic: UnknownActorLogic; id: string },
+	// TMetronomeAction,
+	// any,
+	// any,
+	// string,
+	// {},
+	// EventObject,
+	// MetaObject
 
 	// IMetronomeContext,
 	// TMetronomeEvent,
@@ -67,7 +81,7 @@ export const tempoState: StateNodeConfig<
 			...context,
 			display: {
 				...context.display,
-				text: getTempoDisplay({ context }).value,
+				text: getTempoDisplay(context).value,
 				blinkingChars: [],
 			},
 		};
