@@ -16,7 +16,6 @@ import { stateMenuState } from "@services/MetronomeStateMachine/machines/Metrono
 import { patternState } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/patternState/patternState";
 import { ParameterizedObject } from "xstate/dist/declarations/src/types";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import { context } from "esbuild";
 
 export const MetronomeStateMachine = setup<
 	IMetronomeContext,

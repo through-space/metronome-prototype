@@ -1,6 +1,3 @@
-import sound1 from "@assets/sounds/ClosedHH_808.wav";
-import sound2 from "@assets/sounds/hh.wav";
-
 import { EStep } from "@config/commonInterfaces";
 
 export const MIN_TEMPO = 20;

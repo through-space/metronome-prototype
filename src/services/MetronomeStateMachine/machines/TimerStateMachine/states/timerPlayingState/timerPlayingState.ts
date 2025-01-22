@@ -45,26 +45,17 @@ export const playingState: StateNodeConfig<
 	invoke: [
 		{
 			id: INTERVAL_ACTOR_ID,
-			src: fromCallback(
-				({
-					input: { tempo },
-					system,
-					self,
-					sendBack,
-					receive,
-					emit,
-				}) => {
-					const delay = 60000 / tempo;
+			src: fromCallback(({ input: { tempo }, sendBack }) => {
+				const delay = 60000 / tempo;
+				sendBack({ type: ETimerStateMachineEventType.TICK });
+				const interval = setInterval(() => {
 					sendBack({ type: ETimerStateMachineEventType.TICK });
-					const interval = setInterval(() => {
-						sendBack({ type: ETimerStateMachineEventType.TICK });
-					}, delay);
+				}, delay);
 
-					return () => {
-						clearInterval(interval);
-					};
-				},
-			),
+				return () => {
+					clearInterval(interval);
+				};
+			}),
 			input: ({ context: { tempo } }) => {
 				return { tempo };
 			},

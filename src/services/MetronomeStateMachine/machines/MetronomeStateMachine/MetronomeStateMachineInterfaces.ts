@@ -7,7 +7,6 @@ import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/Time
 import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
 
 import { EStep } from "@config/commonInterfaces";
-import { a } from "vite/dist/node/types.d-aGj9QkWt";
 
 export enum EMetronomeEvent {
 	KNOB_TURN = "knob.turn",
@@ -73,9 +72,7 @@ export enum EStateMachineState {
 
 export interface IActionOpenMenu extends ParameterizedObject {
 	type: "ON_OPEN_STATE_MENU";
-	params: {
-		// context: IMetronomeContext;
-	};
+	// params: {};
 }
 
 export type TMetronomeAction = IActionOpenMenu;

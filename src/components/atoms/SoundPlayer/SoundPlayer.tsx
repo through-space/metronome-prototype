@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef } from "react";
 import { ISoundPlayerProps } from "@components/atoms/SoundPlayer/SoundPlayerInterfaces";
+import { playSound } from "@components/atoms/SoundPlayer/SoundPlayerConsts";
 
 export const SoundPlayer: FC<ISoundPlayerProps> = ({
 	getVolume,
@@ -28,9 +29,9 @@ export const SoundPlayer: FC<ISoundPlayerProps> = ({
 		}
 
 		audioRef.current.volume = getVolume();
-		audioRef.current
-			.play()
-			.catch((err) => console.error("Error playing sound:", err));
+		playSound(audioRef, getVolume()).catch((err) =>
+			console.error("Error playing sound:", err),
+		);
 	}, [trigger, getVolume]);
 
 	return null;

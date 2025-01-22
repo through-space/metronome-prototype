@@ -2,7 +2,6 @@ import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	EStateMachineState,
-	IActionOpenMenu,
 	TMetronomeAction,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";

@@ -39,7 +39,13 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 		return () => {
 			stopBlinking();
 		};
-	}, [originalValue, blinkingChars, blinkingDelay]);
+	}, [
+		originalValue,
+		blinkingChars,
+		blinkingDelay,
+		startBlinking,
+		stopBlinking,
+	]);
 
 	return (
 		<Display

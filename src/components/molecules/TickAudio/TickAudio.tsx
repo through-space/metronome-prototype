@@ -11,9 +11,8 @@ import {
 	selectCurrentStep,
 	selectPattern,
 } from "@services/MetronomeStateMachine/selectors/metronomeMachineSelectors";
-import { ITickAudioProps } from "@components/molecules/TickAudio/TickAudioInterfaces";
 
-export const TickAudio: FC<ITickAudioProps> = () => {
+export const TickAudio: FC = () => {
 	const metronomeMachineRef = MetronomeStateMachineContext.useActorRef();
 	const currentStepIndex = useSelector(
 		metronomeMachineRef,

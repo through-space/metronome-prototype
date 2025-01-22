@@ -1,7 +1,6 @@
 import { ITimerIntervalProps } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
 
 import { EStep } from "@config/commonInterfaces";
-import { sendParent } from "xstate";
 
 const DEFAULT_TIME_INTERVAL = 1000;
 
