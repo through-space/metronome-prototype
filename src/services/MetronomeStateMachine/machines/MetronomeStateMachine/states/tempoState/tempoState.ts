@@ -7,6 +7,7 @@ import {
 } from "xstate";
 import {
 	EMetronomeEvent,
+	IMetronomeContext,
 	TMetronomeAction,
 	TMetronomeActorLogic,
 	TMetronomeEvent,
@@ -18,15 +19,16 @@ import {
 import { IStateMenuContext } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
 
 export const tempoState: StateNodeConfig<
-	IStateMenuContext,
+	IMetronomeContext,
 	TMetronomeEvent,
 	{
 		src: string;
 		logic: TMetronomeActorLogic;
 		id?: string;
 	},
+	TMetronomeAction,
 	// any,
-	any,
+	// any,
 	any,
 	any,
 	any,
@@ -34,7 +36,6 @@ export const tempoState: StateNodeConfig<
 	any,
 	any
 	// { src: string; logic: UnknownActorLogic; id: string },
-	// TMetronomeAction,
 	// any,
 	// any,
 	// string,
@@ -81,7 +82,7 @@ export const tempoState: StateNodeConfig<
 			...context,
 			display: {
 				...context.display,
-				text: getTempoDisplay(context).value,
+				text: getTempoDisplay({ context }).value,
 				blinkingChars: [],
 			},
 		};
