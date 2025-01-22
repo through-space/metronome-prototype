@@ -7,7 +7,7 @@ import {
 	EMetronomeEvent,
 	EStateMachineState,
 	IMetronomeContext,
-	TMetronomeActorLogic,
+	IMetronomeStateMachineActorLogic,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachine";
@@ -20,7 +20,7 @@ import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/mac
 export const MetronomeStateMachine = setup<
 	IMetronomeContext,
 	TMetronomeEvent,
-	Record<string, TMetronomeActorLogic>,
+	Record<string, IMetronomeStateMachineActorLogic>,
 	Record<string, string>,
 	Record<string, ParameterizedObject["params"] | undefined>,
 	Record<EMetronomeEvent, TMetronomeEvent>

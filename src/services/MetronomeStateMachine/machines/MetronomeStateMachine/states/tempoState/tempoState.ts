@@ -1,30 +1,23 @@
-import {
-	assign,
-	EventObject,
-	MetaObject,
-	StateNodeConfig,
-	UnknownActorLogic,
-} from "xstate";
+import { assign, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	IMetronomeContext,
+	IMetronomeStateMachineActorLogic,
 	TMetronomeAction,
-	TMetronomeActorLogic,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import {
 	getTempoDisplay,
 	getUpdatedTempo,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
-import { IStateMenuContext } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/stateMenuState/stateMenuInterfaces";
 
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
 	TMetronomeEvent,
 	{
 		src: string;
-		logic: TMetronomeActorLogic;
-		id?: string;
+		logic: IMetronomeStateMachineActorLogic;
+		id: string;
 	},
 	TMetronomeAction,
 	// any,

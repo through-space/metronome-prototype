@@ -1,4 +1,10 @@
-import { AnyActorRef, MachineSnapshot, ParameterizedObject } from "xstate";
+import {
+	ActorLogic,
+	AnyActorRef,
+	MachineSnapshot,
+	ParameterizedObject,
+	Snapshot,
+} from "xstate";
 import {
 	ActorRefFromLogic,
 	AnyEventObject,
@@ -7,6 +13,10 @@ import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/Time
 import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
 
 import { EStep } from "@config/commonInterfaces";
+import {
+	ITimerStateMachineContext,
+	TTimerStateMachineEvent,
+} from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 
 export enum EMetronomeEvent {
 	KNOB_TURN = "knob.turn",
@@ -72,11 +82,16 @@ export enum EStateMachineState {
 
 export interface IActionOpenMenu extends ParameterizedObject {
 	type: "ON_OPEN_STATE_MENU";
-	// params: {};
+	params: {};
 }
 
+export interface IMetronomeStateMachineActorLogic
+	extends ActorLogic<Snapshot<IMetronomeContext>, TMetronomeAction> {}
+
+// TODO: here is the problem
+
 export type TMetronomeAction = IActionOpenMenu;
-export type TMetronomeActorLogic = ITimerStateMachineActorLogic;
+// export type TMetronomeActorLogic = ITimerStateMachineActorLogic;
 
 export type IMetronomeMachineSnapshot = MachineSnapshot<
 	IMetronomeContext,
