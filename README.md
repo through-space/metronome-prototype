@@ -13,8 +13,11 @@ npm run dev
 ```
 
 ## ToDo
-- [ ] Timer Fix initial step
-- [ ] Metronome Component: export consts
-- [x] Blink LED
-- [ ] Fix: 
+- [x] Timer Fix initial step
+- [x] Blink LED 
+- [ ] Remove Delay??
+- [ ] Add tempo change event
+- [ ] Strict mode triggers useEffect it SoundPlayer
+- [ ] Remove all 'any'
   [Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence
+- [x] Timer doesn't stop on exit

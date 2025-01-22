@@ -16,10 +16,15 @@
       ],
       "@config/*": [
         "src/config/*"
+      ],
+      "@context/*": [
+        "src/context/*"
       ]
     },
     "jsx": "react-jsx",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
   },
   "include": [
     "**/*.ts",
