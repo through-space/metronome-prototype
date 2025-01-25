@@ -1,6 +1,7 @@
 import { setup } from "xstate";
 import {
 	ETimerMachineState,
+	ETimerStateMachineEventType,
 	ITimerStateMachineContext,
 	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
@@ -30,5 +31,15 @@ export const TimerStateMachine = setup<
 		...DEFAULT_TIMER_CONTEXT,
 		...input,
 	}),
+	//TODO: Maybe move ON actions to states?
+	on: {
+		[ETimerStateMachineEventType.SET_TEMPO]: {
+			actions: [
+				() => {
+					console.log(123);
+				},
+			],
+		},
+	},
 	states: { idleState, playingState },
 });

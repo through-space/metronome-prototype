@@ -50,7 +50,7 @@ export interface ITimerStopEvent {
 }
 
 export interface ITimerSetTempoEvent {
-	type: ETimerStateMachineEventType.START;
+	type: ETimerStateMachineEventType.SET_TEMPO;
 	tempo: number;
 }
 

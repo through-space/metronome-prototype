@@ -1,8 +1,7 @@
-import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
+import { assign, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	EStateMachineState,
-	TMetronomeAction,
 	TMetronomeActorLogic,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";

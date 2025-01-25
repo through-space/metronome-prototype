@@ -25,7 +25,9 @@ export const MetronomeStateMachine = setup<
 	Record<string, ParameterizedObject["params"] | undefined>,
 	Record<EMetronomeEvent, TMetronomeEvent>
 >({
-	actors: {},
+	actors: {
+		// timerStateMachineRef: null,
+	},
 	actions: {
 		ON_OPEN_STATE_MENU: assign({
 			lastState: ({ self }) => {

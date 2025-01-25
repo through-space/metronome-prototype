@@ -19,5 +19,6 @@ npm run dev
 - [ ] Add tempo change event
 - [ ] Strict mode triggers useEffect it SoundPlayer
 - [ ] Remove all 'any'
+- [ ] lint
   [Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence
 - [x] Timer doesn't stop on exit

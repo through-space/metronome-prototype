@@ -91,7 +91,7 @@ export interface IMetronomeStateMachineActorLogic
 // TODO: here is the problem
 
 export type TMetronomeAction = IActionOpenMenu;
-// export type TMetronomeActorLogic = ITimerStateMachineActorLogic;
+export type TMetronomeActorLogic = ITimerStateMachineActorLogic;
 
 export type IMetronomeMachineSnapshot = MachineSnapshot<
 	IMetronomeContext,

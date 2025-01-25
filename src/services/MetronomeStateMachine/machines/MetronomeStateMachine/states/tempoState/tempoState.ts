@@ -1,4 +1,4 @@
-import { assign, StateNodeConfig } from "xstate";
+import { assign, sendTo, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	IMetronomeContext,
@@ -10,6 +10,8 @@ import {
 	getTempoDisplay,
 	getUpdatedTempo,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
+import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
+import { context } from "esbuild";
 
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
@@ -52,17 +54,34 @@ export const tempoState: StateNodeConfig<
 	// initial: {},
 	on: {
 		[EMetronomeEvent.KNOB_TURN]: {
-			actions: assign(({ context, event }) => {
-				const newTempo = getUpdatedTempo(context.tempo, event.value);
-				return {
-					...context,
-					tempo: newTempo,
-					display: {
-						...context.display,
-						text: newTempo.toString(),
+			actions: [
+				//TODO
+				assign(({ context, event }) => {
+					const newTempo = getUpdatedTempo(
+						context.tempo,
+						event.value,
+					);
+					return {
+						...context,
+						tempo: newTempo,
+						display: {
+							...context.display,
+							text: newTempo.toString(),
+						},
+					};
+				}),
+
+				// sendTo(({context} => ), () => {})
+				sendTo(
+					({ context: { timerStateMachineRef } }) =>
+						timerStateMachineRef,
+					// return "aaa";
+					{
+						type: ETimerStateMachineEventType.SET_TEMPO,
+						tempo: 200,
 					},
-				};
-			}),
+				),
+			],
 		},
 		[EMetronomeEvent.KNOB_CLICK]: {},
 		[EMetronomeEvent.KNOB_LONG_CLICK]: {
