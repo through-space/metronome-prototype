@@ -1,4 +1,4 @@
-import { setup } from "xstate";
+import { assign, setup, stateIn } from "xstate";
 import {
 	ETimerMachineState,
 	ETimerStateMachineEventType,
@@ -33,13 +33,25 @@ export const TimerStateMachine = setup<
 	}),
 	//TODO: Maybe move ON actions to states?
 	on: {
-		[ETimerStateMachineEventType.SET_TEMPO]: {
-			actions: [
-				() => {
-					console.log(123);
-				},
-			],
-		},
+		// [ETimerStateMachineEventType.SET_TEMPO]: {
+		// 	actions: [
+		// 		() => {
+		// 			console.log(123);
+		// 		},
+		// 		assign({
+		// 			tempo: ({ event }) => event.tempo,
+		// 		}),
+		// 	],
+		// after: { 1000: { target: ".playingState" } },
+		//TODO: change to
+		// target: ".playingState",
+		// guard: ({ context }) => {
+		// 	console.log(stateIn("playingState"));
+		// 	console.log(context);
+		// 	return true;
+		// },
+		// guard: stateIn(".playingState"),
+		// },
 	},
 	states: { idleState, playingState },
 });

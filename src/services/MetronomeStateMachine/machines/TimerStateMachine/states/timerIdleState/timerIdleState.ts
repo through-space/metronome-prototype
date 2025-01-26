@@ -1,4 +1,4 @@
-import { EventObject, MetaObject, StateNodeConfig } from "xstate";
+import { assign, EventObject, MetaObject, StateNodeConfig } from "xstate";
 import {
 	ETimerMachineState,
 	ETimerStateMachineEventType,
@@ -20,6 +20,16 @@ export const idleState: StateNodeConfig<
 > = {
 	on: {
 		[ETimerStateMachineEventType.START]: ETimerMachineState.playingState,
+		[ETimerStateMachineEventType.SET_TEMPO]: {
+			actions: [
+				() => {
+					console.log("SET_TEMPO in IdleState");
+				},
+				assign({
+					tempo: ({ event }) => event.tempo,
+				}),
+			],
+		},
 	},
 	// entry: ({ context }) => {
 	// 	console.log("entering idle state");

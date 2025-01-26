@@ -71,14 +71,14 @@ export const tempoState: StateNodeConfig<
 					};
 				}),
 
-				// sendTo(({context} => ), () => {})
 				sendTo(
 					({ context: { timerStateMachineRef } }) =>
 						timerStateMachineRef,
-					// return "aaa";
-					{
-						type: ETimerStateMachineEventType.SET_TEMPO,
-						tempo: 200,
+					({ context: { tempo }, event: { value } }) => {
+						return {
+							type: ETimerStateMachineEventType.SET_TEMPO,
+							tempo: getUpdatedTempo(tempo, value),
+						};
 					},
 				),
 			],

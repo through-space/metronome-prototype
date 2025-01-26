@@ -30,7 +30,7 @@ export interface ITimerStateMachineContext {
 	> | null;
 	currentStep?: number;
 	pattern?: EStep[];
-	callbacks?: (currentStep: EStep) => void;
+	// callbacks?: (currentStep: EStep) => void;
 }
 
 export enum ETimerStateMachineEventType {
