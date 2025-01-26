@@ -1,4 +1,5 @@
 import { EStep } from "@config/commonInterfaces";
+import { TTimerStateMachineEvent } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 
 // export interface ITimerClearIntervalEvent {
 // 	type: ETimerStateMachineEventType.CLEAR_INTERVAL;
@@ -21,7 +22,12 @@ export interface IIntervalActorRestartEvent {
 	type: EIntervalActorEventType.RESTART;
 }
 
-export type TIntervalActorEventType = IIntervalActorRestartEvent;
+export type TIntervalActorEvent = IIntervalActorRestartEvent;
+
+export interface ITickIntervalProps {
+	sendBack: (event: TTimerStateMachineEvent) => void;
+	tempo: number;
+}
 
 // export interface ITimerTickEvent extends EventObject {
 // 	type: ETimerStateMachineEventType.TICK;
