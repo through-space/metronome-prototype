@@ -14,7 +14,10 @@ import {
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import { INTERVAL_ACTOR_ID } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateConsts";
-import { SET_TEMPO_DEBOUNCE_TIMEOUT } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineConsts";
+import {
+	EIntervalActorEventType,
+	TIntervalActorEventType,
+} from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
 
 export const playingState: StateNodeConfig<
 	ITimerStateMachineContext,
@@ -50,7 +53,11 @@ export const playingState: StateNodeConfig<
 				assign({
 					tempo: ({ event }) => event.tempo,
 				}),
+				sendTo(INTERVAL_ACTOR_ID, {
+					type: EIntervalActorEventType.RESTART,
+				}),
 			],
+			// target: ETimerMachineState.playingState,
 			// target: {},
 			// target: ETimerMachineState.playingState,
 			// after: {
@@ -62,13 +69,19 @@ export const playingState: StateNodeConfig<
 	invoke: [
 		{
 			id: INTERVAL_ACTOR_ID,
-			src: fromCallback(({ input: { tempo }, sendBack }) => {
+			src: fromCallback(({ input: { tempo }, sendBack, receive }) => {
 				const delay = 60000 / tempo;
 				console.log("invoked timerCallbackActor", tempo);
 				sendBack({ type: ETimerStateMachineEventType.TICK });
 				const interval = setInterval(() => {
 					sendBack({ type: ETimerStateMachineEventType.TICK });
 				}, delay);
+
+				receive((event: TIntervalActorEventType) => {
+					if (event.type === EIntervalActorEventType.RESTART) {
+						console.log("Received EIntervalActorEventType.RESTART");
+					}
+				});
 
 				return () => {
 					clearInterval(interval);

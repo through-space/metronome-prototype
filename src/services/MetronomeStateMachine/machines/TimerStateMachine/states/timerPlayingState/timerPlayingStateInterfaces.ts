@@ -13,6 +13,16 @@ export interface ITimerIntervalProps {
 	tempo: number;
 }
 
+export enum EIntervalActorEventType {
+	RESTART,
+}
+
+export interface IIntervalActorRestartEvent {
+	type: EIntervalActorEventType.RESTART;
+}
+
+export type TIntervalActorEventType = IIntervalActorRestartEvent;
+
 // export interface ITimerTickEvent extends EventObject {
 // 	type: ETimerStateMachineEventType.TICK;
 // }
