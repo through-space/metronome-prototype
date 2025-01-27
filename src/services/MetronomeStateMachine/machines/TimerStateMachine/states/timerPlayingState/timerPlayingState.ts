@@ -17,6 +17,7 @@ import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/Metron
 import {
 	getTickInterval,
 	INTERVAL_ACTOR_ID,
+	intervalCallbackActorConfig,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateConsts";
 import {
 	EIntervalActorEventType,
@@ -70,33 +71,7 @@ export const playingState: StateNodeConfig<
 		},
 	},
 	entry: [() => console.log("entering timerPlayingState")],
-	invoke: [
-		{
-			id: INTERVAL_ACTOR_ID,
-			src: fromCallback(({ input: { tempo }, sendBack, receive }) => {
-				console.log("invoked timerCallbackActor", tempo);
-
-				const interval = getTickInterval({ sendBack, tempo });
-
-				let test = 0;
-
-				receive((event: TIntervalActorEvent) => {
-					if (event.type === EIntervalActorEventType.RESTART) {
-						console.log("Received EIntervalActorEventType.RESTART");
-						test++;
-						console.log("test", test);
-					}
-				});
-
-				return () => {
-					clearInterval(interval);
-				};
-			}),
-			input: ({ context: { tempo } }) => {
-				return { tempo };
-			},
-		},
-	],
+	invoke: [intervalCallbackActorConfig],
 	exit: [
 		({ context }) => {
 			if (context.timeIntervalId) {
