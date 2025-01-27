@@ -15,14 +15,15 @@ export interface ITimerIntervalProps {
 }
 
 export enum EIntervalActorEventType {
-	RESTART,
+	SET_TEMPO,
 }
 
-export interface IIntervalActorRestartEvent {
-	type: EIntervalActorEventType.RESTART;
+export interface IIntervalActorSetTempoEvent {
+	type: EIntervalActorEventType.SET_TEMPO;
+	newTempo: number;
 }
 
-export type TIntervalActorEvent = IIntervalActorRestartEvent;
+export type TIntervalActorEvent = IIntervalActorSetTempoEvent;
 
 export interface ITickIntervalProps {
 	sendBack: (event: TTimerStateMachineEvent) => void;

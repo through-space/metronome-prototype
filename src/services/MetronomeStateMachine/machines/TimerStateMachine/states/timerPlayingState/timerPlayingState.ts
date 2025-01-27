@@ -58,16 +58,13 @@ export const playingState: StateNodeConfig<
 				assign({
 					tempo: ({ event }) => event.tempo,
 				}),
-				sendTo(INTERVAL_ACTOR_ID, {
-					type: EIntervalActorEventType.RESTART,
+				sendTo(INTERVAL_ACTOR_ID, ({ event }): TIntervalActorEvent => {
+					return {
+						type: EIntervalActorEventType.SET_TEMPO,
+						newTempo: event.tempo,
+					};
 				}),
 			],
-			// target: ETimerMachineState.playingState,
-			// target: {},
-			// target: ETimerMachineState.playingState,
-			// after: {
-			// 	1000: { target: ETimerMachineState.playingState },
-			// },
 		},
 	},
 	//TODO: remove entry:
