@@ -68,6 +68,7 @@ export const intervalCallbackActorConfig: InvokeConfig<
 		});
 
 		return () => {
+			console.log("cleared interval");
 			clearInterval(interval);
 		};
 	}),

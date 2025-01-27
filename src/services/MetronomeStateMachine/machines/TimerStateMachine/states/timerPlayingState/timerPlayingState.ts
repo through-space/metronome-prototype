@@ -70,14 +70,15 @@ export const playingState: StateNodeConfig<
 			// },
 		},
 	},
+	//TODO: remove entry:
 	entry: [() => console.log("entering timerPlayingState")],
 	invoke: [intervalCallbackActorConfig],
-	exit: [
-		({ context }) => {
-			if (context.timeIntervalId) {
-				clearInterval(context.timeIntervalId);
-			}
-		},
-		assign({ timeIntervalId: null }),
-	],
+	// exit: [
+	// ({ context }) => {
+	// 	if (context.timeIntervalId) {
+	// 		clearInterval(context.timeIntervalId);
+	// 	}
+	// },
+	// assign({ timeIntervalId: null }),
+	// ],
 };

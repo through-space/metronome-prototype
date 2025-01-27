@@ -1,4 +1,3 @@
-import { EStep } from "@config/commonInterfaces";
 import {
 	ActorRef,
 	AnyActorRef,
@@ -12,7 +11,7 @@ import {
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 
 export interface ITimerStateMachineContext {
-	timeIntervalId: NodeJS.Timeout | null;
+	// timeIntervalId: NodeJS.Timeout | null;
 	tempo: number;
 	metronomeStateMachine: ActorRef<
 		MachineSnapshot<
@@ -28,8 +27,8 @@ export interface ITimerStateMachineContext {
 		TMetronomeEvent,
 		AnyEventObject
 	> | null;
-	currentStep?: number;
-	pattern?: EStep[];
+	// currentStep?: number;
+	// pattern?: EStep[];
 	// callbacks?: (currentStep: EStep) => void;
 }
 
@@ -37,7 +36,7 @@ export enum ETimerStateMachineEventType {
 	START = "START",
 	STOP = "STOP",
 	SET_TEMPO = "SET_TEMPO",
-	CLEAR_INTERVAL = "CLEAR_INTERVAL",
+	// CLEAR_INTERVAL = "CLEAR_INTERVAL",
 	TICK = "TICK",
 }
 
