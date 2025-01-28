@@ -1,8 +1,21 @@
-import { ITimerIntervalProps } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
-
-import { EStep } from "@config/commonInterfaces";
+import {
+	ETimerStateMachineEventType,
+	ITimerStateMachineContext,
+	TTimerStateMachineEvent,
+} from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
+import {
+	EIntervalActorEventType,
+	ITickIntervalProps,
+	TIntervalActorEvent,
+} from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
+import { fromCallback } from "xstate";
+import {
+	InvokeConfig,
+	ProvidedActor,
+} from "xstate/dist/declarations/src/types";
 
 const DEFAULT_TIME_INTERVAL = 1000;
+const RESET_DEBOUNCE_INTERVAL_DELAY = 200;
 
 const getTimerIntervalDelay = (tempo: number): number => {
 	if (tempo <= 0) {
@@ -12,26 +25,108 @@ const getTimerIntervalDelay = (tempo: number): number => {
 	return (60 * 1000) / tempo;
 };
 
-export const getTimerInterval = ({
-	tempo,
-	onTickHandler,
-}: ITimerIntervalProps): NodeJS.Timeout => {
+export const getTickInterval = (props: ITickIntervalProps): NodeJS.Timeout => {
+	const { tempo, sendBack } = props;
+
 	const delay = getTimerIntervalDelay(tempo);
 
-	const handlers = Array.isArray(onTickHandler)
-		? onTickHandler
-		: onTickHandler
-			? [onTickHandler]
-			: [];
+	sendBack({ type: ETimerStateMachineEventType.TICK });
 
 	return setInterval(() => {
-		// sendParent({ type: "ACTION1", data: "Updated by child" });
-		if (handlers) {
-			handlers.forEach((handler) => {
-				handler(EStep.LOW);
-			});
-		}
+		sendBack({ type: ETimerStateMachineEventType.TICK });
 	}, delay);
 };
 
 export const INTERVAL_ACTOR_ID = "intervalActor";
+
+const debounceWithReturn = <
+	T extends (...args: Parameters<T>) => ReturnType<T>,
+>(
+	func: T,
+	delay: number,
+): ((...args: Parameters<T>) => Promise<ReturnType<T>>) => {
+	let timeout: NodeJS.Timeout | null = null;
+
+	return (...args: Parameters<T>) => {
+		return new Promise<ReturnType<T>>((resolve) => {
+			if (timeout) {
+				clearTimeout(timeout);
+			}
+			timeout = setTimeout(() => {
+				const result = func(...args);
+				resolve(result);
+			}, delay);
+		});
+	};
+};
+
+const getResetInterval = (props: {
+	tickInterval: NodeJS.Timeout;
+	sendBack: (event: TTimerStateMachineEvent) => void;
+	tempo: number;
+}): NodeJS.Timeout => {
+	const { tickInterval, sendBack, tempo } = props;
+	clearInterval(tickInterval);
+	return getTickInterval({ sendBack, tempo });
+};
+
+const getDebouncedResetInterval = (props: {
+	sendBack: (event: TTimerStateMachineEvent) => void;
+}): ((props: {
+	tickInterval: NodeJS.Timeout;
+	tempo: number;
+}) => Promise<NodeJS.Timeout>) => {
+	const { sendBack } = props;
+
+	return debounceWithReturn<
+		(props: {
+			tickInterval: NodeJS.Timeout;
+			tempo: number;
+		}) => NodeJS.Timeout
+	>(
+		({ tickInterval, tempo }) =>
+			getResetInterval({ tickInterval, sendBack, tempo }),
+		RESET_DEBOUNCE_INTERVAL_DELAY,
+	);
+};
+
+export const intervalCallbackActorConfig: InvokeConfig<
+	ITimerStateMachineContext,
+	TTimerStateMachineEvent,
+	ProvidedActor,
+	never,
+	never,
+	never,
+	never,
+	never
+> = {
+	id: INTERVAL_ACTOR_ID,
+	src: fromCallback(({ input: { tempo }, sendBack, receive }) => {
+		let tickInterval = getTickInterval({ sendBack, tempo });
+
+		const debouncedGetResetInterval = getDebouncedResetInterval({
+			sendBack,
+		});
+
+		const updateTempo = (tempo: number) => {
+			debouncedGetResetInterval({ tickInterval, tempo }).then(
+				(updatedInterval: NodeJS.Timeout) => {
+					tickInterval = updatedInterval;
+				},
+			);
+		};
+
+		receive((event: TIntervalActorEvent) => {
+			if (event.type === EIntervalActorEventType.SET_TEMPO) {
+				updateTempo(event.newTempo);
+			}
+		});
+
+		return () => {
+			clearInterval(tickInterval);
+		};
+	}),
+	input: ({ context: { tempo } }) => {
+		return { tempo };
+	},
+};

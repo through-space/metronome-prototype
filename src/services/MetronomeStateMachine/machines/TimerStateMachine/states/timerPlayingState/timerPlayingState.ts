@@ -1,7 +1,6 @@
 import {
 	assign,
 	EventObject,
-	fromCallback,
 	MetaObject,
 	sendTo,
 	StateNodeConfig,
@@ -13,15 +12,24 @@ import {
 	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
-import { INTERVAL_ACTOR_ID } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateConsts";
+import {
+	INTERVAL_ACTOR_ID,
+	intervalCallbackActorConfig,
+} from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateConsts";
+import {
+	EIntervalActorEventType,
+	TIntervalActorEvent,
+} from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
+import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
 
 export const playingState: StateNodeConfig<
 	ITimerStateMachineContext,
-	//TODO: do I get start/stop
-	// TTimerStateMachineEvent | TTimerPlayingStateEvent,
 	TTimerStateMachineEvent,
-	//TODO: remove any
-	any,
+	{
+		id: string;
+		src: string;
+		logic: ITimerStateMachineActorLogic;
+	},
 	never,
 	never,
 	never,
@@ -41,32 +49,19 @@ export const playingState: StateNodeConfig<
 				}),
 			],
 		},
+		[ETimerStateMachineEventType.SET_TEMPO]: {
+			actions: [
+				assign({
+					tempo: ({ event }) => event.tempo,
+				}),
+				sendTo(INTERVAL_ACTOR_ID, ({ event }): TIntervalActorEvent => {
+					return {
+						type: EIntervalActorEventType.SET_TEMPO,
+						newTempo: event.tempo,
+					};
+				}),
+			],
+		},
 	},
-	invoke: [
-		{
-			id: INTERVAL_ACTOR_ID,
-			src: fromCallback(({ input: { tempo }, sendBack }) => {
-				const delay = 60000 / tempo;
-				sendBack({ type: ETimerStateMachineEventType.TICK });
-				const interval = setInterval(() => {
-					sendBack({ type: ETimerStateMachineEventType.TICK });
-				}, delay);
-
-				return () => {
-					clearInterval(interval);
-				};
-			}),
-			input: ({ context: { tempo } }) => {
-				return { tempo };
-			},
-		},
-	],
-	exit: [
-		({ context }) => {
-			if (context.timeIntervalId) {
-				clearInterval(context.timeIntervalId);
-			}
-		},
-		assign({ timeIntervalId: null }),
-	],
+	invoke: [intervalCallbackActorConfig],
 };
