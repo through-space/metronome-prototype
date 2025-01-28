@@ -1,4 +1,9 @@
-import { assign, enqueueActions, StateNodeConfig } from "xstate";
+import {
+	assign,
+	enqueueActions,
+	ParameterizedObject,
+	StateNodeConfig,
+} from "xstate";
 import {
 	EMetronomeEvent,
 	IMetronomeContext,
@@ -31,7 +36,7 @@ export const tempoState: StateNodeConfig<
 		id: string;
 	},
 	TMetronomeAction,
-	never,
+	{ type: EMetronomeEvent; params: TMetronomeEvent },
 	string,
 	string,
 	never,
