@@ -1,7 +1,6 @@
 import {
 	assign,
 	EventObject,
-	fromCallback,
 	MetaObject,
 	sendTo,
 	StateNodeConfig,
@@ -9,13 +8,11 @@ import {
 import {
 	ETimerMachineState,
 	ETimerStateMachineEventType,
-	ITimerStartEvent,
 	ITimerStateMachineContext,
 	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import {
-	getTickInterval,
 	INTERVAL_ACTOR_ID,
 	intervalCallbackActorConfig,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateConsts";
@@ -23,14 +20,16 @@ import {
 	EIntervalActorEventType,
 	TIntervalActorEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
+import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
 
 export const playingState: StateNodeConfig<
 	ITimerStateMachineContext,
-	//TODO: do I get start/stop
-	// TTimerStateMachineEvent | TTimerPlayingStateEvent,
 	TTimerStateMachineEvent,
-	//TODO: remove any
-	any,
+	{
+		id: string;
+		src: string;
+		logic: ITimerStateMachineActorLogic;
+	},
 	never,
 	never,
 	never,
@@ -52,9 +51,6 @@ export const playingState: StateNodeConfig<
 		},
 		[ETimerStateMachineEventType.SET_TEMPO]: {
 			actions: [
-				() => {
-					console.log("SET_TEMPO in PlayingState");
-				},
 				assign({
 					tempo: ({ event }) => event.tempo,
 				}),
@@ -67,15 +63,5 @@ export const playingState: StateNodeConfig<
 			],
 		},
 	},
-	//TODO: remove entry:
-	entry: [() => console.log("entering timerPlayingState")],
 	invoke: [intervalCallbackActorConfig],
-	// exit: [
-	// ({ context }) => {
-	// 	if (context.timeIntervalId) {
-	// 		clearInterval(context.timeIntervalId);
-	// 	}
-	// },
-	// assign({ timeIntervalId: null }),
-	// ],
 };

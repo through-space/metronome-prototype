@@ -13,10 +13,6 @@ import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/Time
 import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
 
 import { EStep } from "@config/commonInterfaces";
-import {
-	ITimerStateMachineContext,
-	TTimerStateMachineEvent,
-} from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
 
 export enum EMetronomeEvent {
 	KNOB_TURN = "knob.turn",

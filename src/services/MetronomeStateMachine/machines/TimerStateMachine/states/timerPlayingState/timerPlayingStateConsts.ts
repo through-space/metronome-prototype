@@ -39,7 +39,9 @@ export const getTickInterval = (props: ITickIntervalProps): NodeJS.Timeout => {
 
 export const INTERVAL_ACTOR_ID = "intervalActor";
 
-const debounceWithReturn = <T extends (...args: any[]) => any>(
+const debounceWithReturn = <
+	T extends (...args: Parameters<T>) => ReturnType<T>,
+>(
 	func: T,
 	delay: number,
 ): ((...args: Parameters<T>) => Promise<ReturnType<T>>) => {
@@ -64,7 +66,6 @@ const getResetInterval = (props: {
 	tempo: number;
 }): NodeJS.Timeout => {
 	const { tickInterval, sendBack, tempo } = props;
-	console.log("new tempo in reset", tempo);
 	clearInterval(tickInterval);
 	return getTickInterval({ sendBack, tempo });
 };
@@ -101,8 +102,6 @@ export const intervalCallbackActorConfig: InvokeConfig<
 > = {
 	id: INTERVAL_ACTOR_ID,
 	src: fromCallback(({ input: { tempo }, sendBack, receive }) => {
-		console.log("invoked timerCallbackActor", tempo);
-
 		let tickInterval = getTickInterval({ sendBack, tempo });
 
 		const debouncedGetResetInterval = getDebouncedResetInterval({
@@ -119,17 +118,11 @@ export const intervalCallbackActorConfig: InvokeConfig<
 
 		receive((event: TIntervalActorEvent) => {
 			if (event.type === EIntervalActorEventType.SET_TEMPO) {
-				console.log(
-					"Received EIntervalActorEventType.SET_TEMPO",
-					event,
-				);
-
 				updateTempo(event.newTempo);
 			}
 		});
 
 		return () => {
-			console.log("cleared interval");
 			clearInterval(tickInterval);
 		};
 	}),

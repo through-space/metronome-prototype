@@ -22,20 +22,10 @@ export const idleState: StateNodeConfig<
 		[ETimerStateMachineEventType.START]: ETimerMachineState.playingState,
 		[ETimerStateMachineEventType.SET_TEMPO]: {
 			actions: [
-				//TODO: remove console.log()
-				() => {
-					console.log("SET_TEMPO in IdleState");
-				},
 				assign({
 					tempo: ({ event }) => event.tempo,
 				}),
 			],
 		},
 	},
-	// entry: ({ context }) => {
-	// 	console.log("entering idle state");
-	// 	console.log("context", context);
-	// },
-	// exit:{},
-	// entry: {}
 };

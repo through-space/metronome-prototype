@@ -1,4 +1,4 @@
-import { assign, enqueueActions, sendTo, StateNodeConfig } from "xstate";
+import { assign, enqueueActions, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	IMetronomeContext,
@@ -11,39 +11,17 @@ import {
 	getUpdatedTempo,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
+import { EventObject, MetaObject } from "xstate/dist/declarations/src/types";
 
-// const getUpdateTempoActions = ({
-// 	prevTempo,
-// 	change,
-// }: {
-// 	prevTempo: number;
-// 	change: number;
-// }) => {
-// 	const newTempo = getUpdatedTempo(prevTempo, change);
-// 	return [
-// 		assign(({ context, event }) => {
-// 			return {
-// 				...context,
-// 				tempo: newTempo,
-// 				display: {
-// 					...context.display,
-// 					text: newTempo.toString(),
-// 				},
-// 			};
-// 		}),
-//
-// 		sendTo(
-// 			({ context: { timerStateMachineRef } }) => timerStateMachineRef,
-// 			({ context: { tempo } }) => {
-// 				return {
-// 					type: ETimerStateMachineEventType.SET_TEMPO,
-// 					tempo,
-// 				};
-// 			},
-// 		),
-// 	];
-// };
-
+// <TContext extends MachineContext,
+// 	TEvent extends EventObject,
+// 	TActor extends ProvidedActor,
+// 	TAction extends ParameterizedObject,
+// 	TGuard extends ParameterizedObject,
+// 	TDelay extends string,
+// 	TTag extends string,
+// 	_TOutput,
+// 	TEmitted extends EventObject, TMeta extends MetaObject>
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
 	TMetronomeEvent,
@@ -53,67 +31,17 @@ export const tempoState: StateNodeConfig<
 		id: string;
 	},
 	TMetronomeAction,
-	// any,
-	// any,
-	any,
-	any,
-	any,
-	any,
-	any,
-	any
-	// { src: string; logic: UnknownActorLogic; id: string },
-	// any,
-	// any,
-	// string,
-	// {},
-	// EventObject,
-	// MetaObject
-
-	// IMetronomeContext,
-	// TMetronomeEvent,
-	// ProvidedActor,
-	// // { src: string; logic: ITimerStateMachineActorLogic; id: string },
-	// TMetronomeAction,
-	// any,
-	// never,
-	// string,
-	// {},
-	// EventObject,
-	// MetaObject
+	never,
+	string,
+	string,
+	never,
+	EventObject,
+	MetaObject
 > = {
 	// id: EStateMachineState.tempoState,
 	// initial: {},
 	on: {
 		[EMetronomeEvent.KNOB_TURN]: {
-			// actions: [
-			// 	//TODO: Not sure these are imperative
-			// 	assign(({ context, event }) => {
-			// 		const newTempo = getUpdatedTempo(
-			// 			context.tempo,
-			// 			event.value,
-			// 		);
-			// 		return {
-			// 			...context,
-			// 			tempo: newTempo,
-			// 			display: {
-			// 				...context.display,
-			// 				text: newTempo.toString(),
-			// 			},
-			// 		};
-			// 	}),
-			//
-			// 	sendTo(
-			// 		({ context: { timerStateMachineRef } }) =>
-			// 			timerStateMachineRef,
-			// 		({ context: { tempo } }) => {
-			// 			return {
-			// 				type: ETimerStateMachineEventType.SET_TEMPO,
-			// 				tempo,
-			// 			};
-			// 		},
-			// 	),
-			// ],
-
 			actions: enqueueActions(
 				({
 					context: { tempo, display, timerStateMachineRef },
@@ -132,43 +60,6 @@ export const tempoState: StateNodeConfig<
 					});
 				},
 			),
-			// Newer version
-
-			// actions: enqueueActions(({ enqueue, context, event }) => {
-			// 	const newTempo = getUpdatedTempo(context.tempo, event.value);
-
-			// enqueue.sendTo();
-
-			// enqueue(
-			// 	assign(({ context, event }) => {
-			// 		const newTempo = getUpdatedTempo(
-			// 			context.tempo,
-			// 			event.value,
-			// 		);
-			// 		return {
-			// 			// ...context,
-			// 			tempo: newTempo,
-			// 			display: {
-			// 				...context.display,
-			// 				text: newTempo.toString(),
-			// 			},
-			// 		};
-			// 	}),
-			// 	sendTo(
-			// 		({ context: { timerStateMachineRef } }) =>
-			// 			timerStateMachineRef,
-			// 		({ context: { tempo } }) => {
-			// 			return {
-			// 				type: ETimerStateMachineEventType.SET_TEMPO,
-			// 				tempo,
-			// 			};
-			// 		},
-			// 	),
-			// );
-			// enqueue;
-			// }),
-
-			// ]),
 		},
 		[EMetronomeEvent.KNOB_CLICK]: {},
 		[EMetronomeEvent.KNOB_LONG_CLICK]: {

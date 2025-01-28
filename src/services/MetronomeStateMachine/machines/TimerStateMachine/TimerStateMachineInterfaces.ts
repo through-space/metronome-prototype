@@ -21,8 +21,8 @@ export interface ITimerStateMachineContext {
 			StateValue,
 			string,
 			unknown,
-			any,
-			any
+			never,
+			never
 		>,
 		TMetronomeEvent,
 		AnyEventObject
