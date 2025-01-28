@@ -1,4 +1,4 @@
-import { assign, sendTo, StateNodeConfig } from "xstate";
+import { assign, enqueueActions, sendTo, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	IMetronomeContext,
@@ -11,7 +11,38 @@ import {
 	getUpdatedTempo,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import { context } from "esbuild";
+
+// const getUpdateTempoActions = ({
+// 	prevTempo,
+// 	change,
+// }: {
+// 	prevTempo: number;
+// 	change: number;
+// }) => {
+// 	const newTempo = getUpdatedTempo(prevTempo, change);
+// 	return [
+// 		assign(({ context, event }) => {
+// 			return {
+// 				...context,
+// 				tempo: newTempo,
+// 				display: {
+// 					...context.display,
+// 					text: newTempo.toString(),
+// 				},
+// 			};
+// 		}),
+//
+// 		sendTo(
+// 			({ context: { timerStateMachineRef } }) => timerStateMachineRef,
+// 			({ context: { tempo } }) => {
+// 				return {
+// 					type: ETimerStateMachineEventType.SET_TEMPO,
+// 					tempo,
+// 				};
+// 			},
+// 		),
+// 	];
+// };
 
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
@@ -54,34 +85,90 @@ export const tempoState: StateNodeConfig<
 	// initial: {},
 	on: {
 		[EMetronomeEvent.KNOB_TURN]: {
-			actions: [
-				//TODO
-				assign(({ context, event }) => {
-					const newTempo = getUpdatedTempo(
-						context.tempo,
-						event.value,
-					);
-					return {
-						...context,
-						tempo: newTempo,
-						display: {
-							...context.display,
-							text: newTempo.toString(),
-						},
-					};
-				}),
+			// actions: [
+			// 	//TODO: Not sure these are imperative
+			// 	assign(({ context, event }) => {
+			// 		const newTempo = getUpdatedTempo(
+			// 			context.tempo,
+			// 			event.value,
+			// 		);
+			// 		return {
+			// 			...context,
+			// 			tempo: newTempo,
+			// 			display: {
+			// 				...context.display,
+			// 				text: newTempo.toString(),
+			// 			},
+			// 		};
+			// 	}),
+			//
+			// 	sendTo(
+			// 		({ context: { timerStateMachineRef } }) =>
+			// 			timerStateMachineRef,
+			// 		({ context: { tempo } }) => {
+			// 			return {
+			// 				type: ETimerStateMachineEventType.SET_TEMPO,
+			// 				tempo,
+			// 			};
+			// 		},
+			// 	),
+			// ],
 
-				sendTo(
-					({ context: { timerStateMachineRef } }) =>
-						timerStateMachineRef,
-					({ context: { tempo }, event: { value } }) => {
-						return {
-							type: ETimerStateMachineEventType.SET_TEMPO,
-							tempo: getUpdatedTempo(tempo, value),
-						};
-					},
-				),
-			],
+			actions: enqueueActions(
+				({
+					context: { tempo, display, timerStateMachineRef },
+					event: { change },
+					enqueue,
+				}) => {
+					const newTempo = getUpdatedTempo(tempo, change);
+
+					enqueue.assign({ tempo: newTempo });
+					enqueue.assign({
+						display: { ...display, text: newTempo.toString() },
+					});
+					enqueue.sendTo(timerStateMachineRef, {
+						type: ETimerStateMachineEventType.SET_TEMPO,
+						tempo: newTempo,
+					});
+				},
+			),
+			// Newer version
+
+			// actions: enqueueActions(({ enqueue, context, event }) => {
+			// 	const newTempo = getUpdatedTempo(context.tempo, event.value);
+
+			// enqueue.sendTo();
+
+			// enqueue(
+			// 	assign(({ context, event }) => {
+			// 		const newTempo = getUpdatedTempo(
+			// 			context.tempo,
+			// 			event.value,
+			// 		);
+			// 		return {
+			// 			// ...context,
+			// 			tempo: newTempo,
+			// 			display: {
+			// 				...context.display,
+			// 				text: newTempo.toString(),
+			// 			},
+			// 		};
+			// 	}),
+			// 	sendTo(
+			// 		({ context: { timerStateMachineRef } }) =>
+			// 			timerStateMachineRef,
+			// 		({ context: { tempo } }) => {
+			// 			return {
+			// 				type: ETimerStateMachineEventType.SET_TEMPO,
+			// 				tempo,
+			// 			};
+			// 		},
+			// 	),
+			// );
+			// enqueue;
+			// }),
+
+			// ]),
 		},
 		[EMetronomeEvent.KNOB_CLICK]: {},
 		[EMetronomeEvent.KNOB_LONG_CLICK]: {

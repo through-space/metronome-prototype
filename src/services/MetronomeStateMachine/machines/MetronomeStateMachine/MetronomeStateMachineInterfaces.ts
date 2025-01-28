@@ -28,7 +28,7 @@ export enum EMetronomeEvent {
 
 export interface IKnobTurnEvent extends AnyEventObject {
 	type: EMetronomeEvent.KNOB_TURN;
-	value: number;
+	change: number;
 }
 
 export interface IKnobClickEvent extends AnyEventObject {

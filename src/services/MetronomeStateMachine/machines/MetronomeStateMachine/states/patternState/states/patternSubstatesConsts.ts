@@ -9,11 +9,11 @@ export const getNewCharIndex = (
 	event: IKnobTurnEvent,
 ): number => {
 	return Math.abs(
-		(context.currentEditCharIndex + event.value) % context.pattern.length,
+		(context.currentEditCharIndex + event.change) % context.pattern.length,
 	);
 };
 
 export const getNextStep = (stepType: EStep, event: IKnobTurnEvent): EStep => {
 	const stepTypeIndex = stepTypes.indexOf(stepType);
-	return stepTypes[(stepTypeIndex + event.value) % stepTypes.length];
+	return stepTypes[(stepTypeIndex + event.change) % stepTypes.length];
 };

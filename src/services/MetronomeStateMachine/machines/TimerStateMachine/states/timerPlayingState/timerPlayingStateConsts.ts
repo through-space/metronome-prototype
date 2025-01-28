@@ -8,12 +8,11 @@ import {
 	ITickIntervalProps,
 	TIntervalActorEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
-import { CallbackActorLogic, fromCallback } from "xstate";
+import { fromCallback } from "xstate";
 import {
 	InvokeConfig,
 	ProvidedActor,
 } from "xstate/dist/declarations/src/types";
-import { number } from "prop-types";
 
 const DEFAULT_TIME_INTERVAL = 1000;
 const RESET_DEBOUNCE_INTERVAL_DELAY = 200;
@@ -69,13 +68,6 @@ const getResetInterval = (props: {
 	clearInterval(tickInterval);
 	return getTickInterval({ sendBack, tempo });
 };
-
-// const debouncedResetInterval = debounceWithReturn<
-// 	(tickInterval: NodeJS.Timeout, tempo: number) => NodeJS.Timeout
-// >(
-// 	(tickInterval, tempo) => getResetInterval(tickInterval, sendBack, tempo),
-// 	RESET_DEBOUNCE_INTERVAL,
-// );
 
 const getDebouncedResetInterval = (props: {
 	sendBack: (event: TTimerStateMachineEvent) => void;

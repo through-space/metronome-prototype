@@ -42,7 +42,7 @@ export const ButtonKnob = () => {
 
 		metronomeMachineRef.send({
 			type: EMetronomeEvent.KNOB_TURN,
-			value: change,
+			change,
 		});
 	};
 
