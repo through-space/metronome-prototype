@@ -1,9 +1,4 @@
-import {
-	assign,
-	enqueueActions,
-	ParameterizedObject,
-	StateNodeConfig,
-} from "xstate";
+import { assign, enqueueActions, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
 	IMetronomeContext,

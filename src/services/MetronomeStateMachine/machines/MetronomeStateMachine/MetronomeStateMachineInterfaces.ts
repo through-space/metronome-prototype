@@ -78,7 +78,6 @@ export enum EStateMachineState {
 
 export interface IActionOpenMenu extends ParameterizedObject {
 	type: "ON_OPEN_STATE_MENU";
-	params: {};
 }
 
 export interface IMetronomeStateMachineActorLogic

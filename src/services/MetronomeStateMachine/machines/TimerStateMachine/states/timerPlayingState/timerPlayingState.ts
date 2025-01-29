@@ -38,7 +38,6 @@ export const playingState: StateNodeConfig<
 	EventObject,
 	MetaObject
 > = {
-	//TODO: I don't like that id is defined outside of the state, on higher level
 	id: ETimerMachineState.playingState,
 	on: {
 		[ETimerStateMachineEventType.STOP]: ETimerMachineState.idleState,
