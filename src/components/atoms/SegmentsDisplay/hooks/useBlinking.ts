@@ -11,13 +11,17 @@ export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 	}, [originalValue]);
 
 	const stopBlinking = useCallback(() => {
+		if (!timeIntervalId) {
+			return;
+		}
+
 		clearInterval(timeIntervalId.current);
 		timeIntervalId.current = null;
-	}, []);
+	}, [timeIntervalId]);
 
-	const startBlinking = useCallback((blinkingText: string) => {
+	const startBlinking = useCallback((text: string, blinkingText: string) => {
 		stopBlinking();
-		setCurrentValue(originalValue);
+		setCurrentValue(text);
 
 		if (blinkingText === originalValue) {
 			return;
@@ -25,7 +29,7 @@ export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 
 		timeIntervalId.current = setInterval(() => {
 			setCurrentValue((prevValue) =>
-				prevValue === originalValue ? blinkingText : originalValue,
+				prevValue === text ? blinkingText : text,
 			);
 		}, blinkingDelay);
 	}, []);

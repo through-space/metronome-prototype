@@ -33,7 +33,7 @@ export const SegmentsDisplay = (props: ISegmentsDisplayProps) => {
 	useEffect(() => {
 		if (blinkingChars && blinkingChars.length) {
 			const blinkingText = getBlinkingText(originalValue, blinkingChars);
-			startBlinking(blinkingText);
+			startBlinking(originalValue, blinkingText);
 		}
 
 		return () => {
