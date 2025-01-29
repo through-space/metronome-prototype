@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 	const timeIntervalId = useRef<NodeJS.Timeout | null>(null);
@@ -10,12 +10,12 @@ export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 		setCurrentValue(originalValue);
 	}, [originalValue]);
 
-	const stopBlinking = () => {
+	const stopBlinking = useCallback(() => {
 		clearInterval(timeIntervalId.current);
 		timeIntervalId.current = null;
-	};
+	}, []);
 
-	const startBlinking = (blinkingText: string) => {
+	const startBlinking = useCallback((blinkingText: string) => {
 		stopBlinking();
 		setCurrentValue(originalValue);
 
@@ -28,7 +28,7 @@ export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 				prevValue === originalValue ? blinkingText : originalValue,
 			);
 		}, blinkingDelay);
-	};
+	}, []);
 
 	return { startBlinking, stopBlinking, currentValue };
 };

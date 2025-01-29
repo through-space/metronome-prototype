@@ -71,14 +71,15 @@ export const stateMenuState: StateNodeConfig<
 			display: { ...context.display, blinkingChars: [] },
 		};
 	}),
-	entry: assign(({ context }) => {
-		return {
-			...context,
-			display: {
-				...context.display,
-				blinkingChars: [0, 1, 2, 3],
-				blinkingDelay: E_DISPLAY_BLINKING_DELAYS.LONG,
-			},
-		};
-	}),
+	entry: [
+		assign(({ context: { display } }) => {
+			return {
+				display: {
+					...display,
+					blinkingChars: [0, 1, 2, 3],
+					blinkingDelay: E_DISPLAY_BLINKING_DELAYS.LONG,
+				},
+			};
+		}),
+	],
 };
