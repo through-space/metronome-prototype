@@ -31,7 +31,7 @@ export const tempoState: StateNodeConfig<
 		id: string;
 	},
 	TMetronomeAction,
-	never,
+	{ type: EMetronomeEvent; params: TMetronomeEvent },
 	string,
 	string,
 	never,

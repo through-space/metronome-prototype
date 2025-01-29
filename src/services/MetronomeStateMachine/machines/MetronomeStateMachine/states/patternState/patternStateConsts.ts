@@ -16,9 +16,11 @@ export const getDisplayChar = (step: EStep) => {
 	return patternCharMap.has(step) ? patternCharMap.get(step) : EMPTY_CHAR;
 };
 
-export const getPatternDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
+export const getPatternDisplay: TGetStateMenuDisplayFunc = ({
+	context: { pattern },
+}) => {
 	return {
-		value: context.pattern.map((step) => getDisplayChar(step)).join(""),
+		value: pattern.map((step) => getDisplayChar(step)).join(""),
 		blinkingChars: [0],
 	};
 };
