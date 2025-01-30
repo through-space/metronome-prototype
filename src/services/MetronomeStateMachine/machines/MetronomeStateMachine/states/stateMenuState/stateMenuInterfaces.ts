@@ -6,7 +6,7 @@ export interface IStateMenuContext extends IMetronomeContext {
 }
 
 export interface IStateMenuDisplayProps {
-	context?: IMetronomeContext;
+	context: IMetronomeContext;
 }
 
 export type TGetStateMenuDisplayFunc = (props: IStateMenuDisplayProps) => {
