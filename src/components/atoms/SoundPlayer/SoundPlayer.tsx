@@ -19,7 +19,7 @@ export const SoundPlayer: FC<ISoundPlayerProps> = ({
 	}, [getAudioFile]);
 
 	useEffect(() => {
-		if (!audioRef || !audioRef.current) {
+		if (!audioRef.current) {
 			return;
 		}
 

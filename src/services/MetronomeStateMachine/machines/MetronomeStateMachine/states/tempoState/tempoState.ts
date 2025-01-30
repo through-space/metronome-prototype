@@ -1,11 +1,9 @@
 import { assign, enqueueActions, StateNodeConfig } from "xstate";
 import {
 	EMetronomeEvent,
-	IKnobTurnEvent,
 	IMetronomeContext,
 	IMetronomeStateMachineActorLogic,
 	TMetronomeAction,
-	TMetronomeActorLogic,
 	TMetronomeEvent,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import {
@@ -13,14 +11,7 @@ import {
 	getUpdatedTempo,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import {
-	ActorRefFromLogic,
-	EventObject,
-	MetaObject,
-	type PropertyAssigner,
-} from "xstate/dist/declarations/src/types";
-import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
-import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachine";
+import { EventObject, MetaObject } from "xstate/dist/declarations/src/types";
 
 // <TContext extends MachineContext,
 // 	TEvent extends EventObject,
@@ -33,41 +24,19 @@ import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/Time
 // 	TEmitted extends EventObject, TMeta extends MetaObject>
 export const tempoState: StateNodeConfig<
 	IMetronomeContext,
-	// TMetronomeEvent,
-	// {
-	// 	src: string;
-	// 	logic: TMetronomeActorLogic;
-	// 	id: string;
-	// },
-	//
-
 	TMetronomeEvent,
 	{
 		src: string;
 		logic: IMetronomeStateMachineActorLogic;
 		id: string;
 	},
-	// any,
 	TMetronomeAction,
-	// any,
-	// { type: EMetronomeEvent; params: TMetronomeEvent },
-	// IKnobTurnEvent,
-	any,
-	any,
-	any,
-	// any,
-	any,
-	any,
-	// {} extends EventObject,
-	// IKnobTurnEvent,
-	any
-	// any
-	// any
-	// string,
-	// string,
-	// never,
-	// EventObject,
-	// MetaObject
+	{ type: EMetronomeEvent; params: TMetronomeEvent },
+	string,
+	string,
+	never,
+	EventObject,
+	MetaObject
 > = {
 	// id: EStateMachineState.tempoState,
 	// initial: {},
@@ -79,23 +48,16 @@ export const tempoState: StateNodeConfig<
 					event: { change },
 					enqueue,
 				}) => {
-					if (!timerStateMachineRef) {
-						return;
-					}
-
 					const newTempo = getUpdatedTempo(tempo, change);
 
 					enqueue.assign({ tempo: newTempo });
 					enqueue.assign({
 						display: { ...display, text: newTempo.toString() },
 					});
-					enqueue.sendTo<ActorRefFromLogic<typeof TimerStateMachine>>(
-						timerStateMachineRef,
-						{
-							type: ETimerStateMachineEventType.SET_TEMPO,
-							tempo: newTempo,
-						},
-					);
+					enqueue.sendTo(timerStateMachineRef, {
+						type: ETimerStateMachineEventType.SET_TEMPO,
+						tempo: newTempo,
+					});
 				},
 			),
 		},

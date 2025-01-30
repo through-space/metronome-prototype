@@ -26,8 +26,6 @@
     "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "node",
-    "strictNullChecks": true,
-    "skipLibCheck": true
   },
   "include": [
     "**/*.ts",

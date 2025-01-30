@@ -1,13 +1,9 @@
 import { MutableRefObject } from "react";
 
 export const playSound = async (
-	audioRef: MutableRefObject<HTMLAudioElement | null>,
+	audioRef: MutableRefObject<HTMLAudioElement>,
 	volume: number,
 ) => {
-	if (!audioRef || audioRef.current === null) {
-		return;
-	}
-
 	audioRef.current.volume = volume;
 	await audioRef.current
 		.play()

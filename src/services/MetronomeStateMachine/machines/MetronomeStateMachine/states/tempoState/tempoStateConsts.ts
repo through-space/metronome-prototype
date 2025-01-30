@@ -13,10 +13,6 @@ export const getUpdatedTempo = (tempo: number, tempoChange: number): number => {
 };
 
 export const getTempoDisplay: TGetStateMenuDisplayFunc = ({ context }) => {
-	if (!context) {
-		return { value: "" };
-	}
-
 	return {
 		value: context.tempo.toString(),
 	};

@@ -2,7 +2,6 @@ import {
 	ActorLogic,
 	AnyActorRef,
 	MachineSnapshot,
-	NonReducibleUnknown,
 	ParameterizedObject,
 	Snapshot,
 } from "xstate";
@@ -79,10 +78,7 @@ export enum EStateMachineState {
 
 export interface IActionOpenMenu extends ParameterizedObject {
 	type: "ON_OPEN_STATE_MENU";
-	params: NonReducibleUnknown;
 }
-
-// export interface
 
 export interface IMetronomeStateMachineActorLogic
 	extends ActorLogic<Snapshot<IMetronomeContext>, TMetronomeAction> {}
