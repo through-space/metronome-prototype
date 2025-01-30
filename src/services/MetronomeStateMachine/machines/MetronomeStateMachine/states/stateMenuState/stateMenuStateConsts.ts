@@ -6,6 +6,8 @@ import { IMetronomeContext } from "@services/MetronomeStateMachine/machines/Metr
 import { getPatternDisplay } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/patternState/patternStateConsts";
 import { getTempoDisplay } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 
+const DEFAULT_EMPTY_DISPLAY = { value: "" };
+
 const stateMenuOptionsDisplayMap = new Map<string, TGetStateMenuDisplayFunc>([
 	["tempoState", ({ context }) => getTempoDisplay({ context })],
 	["patternState", ({ context }) => getPatternDisplay({ context })],
@@ -16,10 +18,16 @@ export const getStateMenuDisplay = (
 	context: IMetronomeContext,
 ): { value: string } => {
 	if (!stateMenuOptionsDisplayMap.has(stateName)) {
+		return DEFAULT_EMPTY_DISPLAY;
+	}
+
+	const getDisplay = stateMenuOptionsDisplayMap.get(stateName);
+
+	if (!getDisplay) {
 		return { value: "" };
 	}
 
-	return stateMenuOptionsDisplayMap.get(stateName)({ context });
+	return getDisplay({ context });
 };
 
 export const getAllStateOptions = (): string[] =>

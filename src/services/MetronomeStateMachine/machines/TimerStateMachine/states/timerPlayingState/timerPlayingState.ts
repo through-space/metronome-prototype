@@ -11,7 +11,10 @@ import {
 	ITimerStateMachineContext,
 	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import {
+	EMetronomeEvent,
+	TMetronomeEvent,
+} from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import {
 	INTERVAL_ACTOR_ID,
 	intervalCallbackActorConfig,
@@ -21,6 +24,20 @@ import {
 	TIntervalActorEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/states/timerPlayingState/timerPlayingStateInterfaces";
 import { ITimerStateMachineActorLogic } from "@services/MetronomeStateMachine/actors/TimerStateMachineActor/TimerStateMachineActor";
+import {
+	ActionArgs,
+	ActionFunction,
+	AnyActorRef,
+	Cast,
+	DoNotInfer,
+	EventFrom,
+	InferEvent,
+	MachineContext,
+	ParameterizedObject,
+	SendExpr,
+	SendToActionOptions,
+} from "xstate/dist/declarations/src/types";
+import { a } from "vite/dist/node/types.d-aGj9QkWt";
 
 export const playingState: StateNodeConfig<
 	ITimerStateMachineContext,
@@ -43,7 +60,19 @@ export const playingState: StateNodeConfig<
 		[ETimerStateMachineEventType.STOP]: ETimerMachineState.idleState,
 		[ETimerStateMachineEventType.TICK]: {
 			actions: [
-				sendTo(({ context }) => context.metronomeStateMachine, {
+				// sendTo(({ context }) => context.metronomeStateMachine, {
+				// 	type: EMetronomeEvent.TICK_TRIGGER,
+				// }),
+				// sendTo<
+				// TContext extends MachineContext,
+				// TExpressionEvent extends EventObject, TParams extends ParameterizedObject['params'] | undefined, TTargetActor extends AnyActorRef, TEvent extends EventObject, TDelay extends string = never, TUsedDelay extends TDelay = never>(to: TTargetActor | string | ((args: ActionArgs<TContext, TExpressionEvent, TEvent>, params: TParams) => TTargetActor | string), eventOrExpr: EventFrom<TTargetActor> | SendExpr<TContext, TExpressionEvent, TParams, InferEvent<Cast<EventFrom<TTargetActor>, EventObject>>, TEvent>, options?: SendToActionOptions<TContext, TExpressionEvent, TParams, DoNotInfer<TEvent>, TUsedDelay>): ActionFunction<TContext, TExpressionEvent, TEvent, TParams, never, never, never, TDelay, never>;
+				sendTo<
+					ITimerStateMachineContext,
+					TTimerStateMachineEvent,
+					any,
+					any,
+					any
+				>(({ context }) => context.metronomeStateMachine, {
 					type: EMetronomeEvent.TICK_TRIGGER,
 				}),
 			],

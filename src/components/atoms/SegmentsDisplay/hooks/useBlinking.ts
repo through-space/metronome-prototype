@@ -11,7 +11,7 @@ export const useBlinking = (originalValue: string, blinkingDelay: number) => {
 	}, [originalValue]);
 
 	const stopBlinking = useCallback(() => {
-		if (!timeIntervalId) {
+		if (!timeIntervalId.current) {
 			return;
 		}
 
