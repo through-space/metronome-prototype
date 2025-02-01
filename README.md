@@ -15,6 +15,7 @@ This is a prototype for electronics Metronome project.
   - Low
   - Silent
 - Customizable step pattern
+- Blinking LED
 
 ## Get Started
 
@@ -41,3 +42,4 @@ npm run dev
 - [x] Strict mode triggers useEffect it SoundPlayer
 - [ ] Remove all 'any'
 - [x] Timer doesn't stop on exit
+- In pattern state: "_" and " " both for silent step
