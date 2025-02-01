@@ -30,14 +30,17 @@ npm run dev
 ## ToDo
 - [x] Timer Fix initial step
 - [x] Blink LED 
-- [ ] Choose sound
-- [ ] Change pattern length
+- [ ] Fix Lint
+- [ ] Sound Selection
+- [ ] Pattern Length Selection State
 - [x] Add tempo change event
 - [ ] Design
-- [ ] Add Credits
 - [ ] Make LongClick intuitive.
 - [ ] Save settings
 - [ ] Reset Setting
+- [ ] Pattern State  
+  - [ ] Initial Display after selection should be running with each step
+- [ ] Add Credits
 
 ## Known Issues
 
