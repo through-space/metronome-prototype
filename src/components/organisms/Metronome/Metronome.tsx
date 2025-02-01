@@ -1,4 +1,3 @@
-import React from "react";
 import { MetronomeMachineContextProvider } from "@context/MetronomeMachineContext/MetronomeMachineContextProvider";
 import { StartStopButton } from "@components/molecules/StartStopButton/StartStopButton";
 import { MetronomeDisplay } from "@components/molecules/MetronomeDisplay/MetronomeDisplay";
@@ -13,7 +12,7 @@ export const Metronome = () => {
 				<MetronomeDisplay />
 				<StartStopButton />
 				<ButtonKnob />
-				<LED delay={60} />
+				<LED />
 				<TickAudio />
 			</MetronomeMachineContextProvider>
 		</>

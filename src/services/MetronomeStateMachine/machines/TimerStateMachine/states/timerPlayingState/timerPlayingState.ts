@@ -43,7 +43,19 @@ export const playingState: StateNodeConfig<
 		[ETimerStateMachineEventType.STOP]: ETimerMachineState.idleState,
 		[ETimerStateMachineEventType.TICK]: {
 			actions: [
-				sendTo(({ context }) => context.metronomeStateMachine, {
+				// sendTo(({ context }) => context.metronomeStateMachine, {
+				// 	type: EMetronomeEvent.TICK_TRIGGER,
+				// }),
+				// sendTo<
+				// TContext extends MachineContext,
+				// TExpressionEvent extends EventObject, TParams extends ParameterizedObject['params'] | undefined, TTargetActor extends AnyActorRef, TEvent extends EventObject, TDelay extends string = never, TUsedDelay extends TDelay = never>(to: TTargetActor | string | ((args: ActionArgs<TContext, TExpressionEvent, TEvent>, params: TParams) => TTargetActor | string), eventOrExpr: EventFrom<TTargetActor> | SendExpr<TContext, TExpressionEvent, TParams, InferEvent<Cast<EventFrom<TTargetActor>, EventObject>>, TEvent>, options?: SendToActionOptions<TContext, TExpressionEvent, TParams, DoNotInfer<TEvent>, TUsedDelay>): ActionFunction<TContext, TExpressionEvent, TEvent, TParams, never, never, never, TDelay, never>;
+				sendTo<
+					ITimerStateMachineContext,
+					TTimerStateMachineEvent,
+					any,
+					any,
+					any
+				>(({ context }) => context.metronomeStateMachine, {
 					type: EMetronomeEvent.TICK_TRIGGER,
 				}),
 			],

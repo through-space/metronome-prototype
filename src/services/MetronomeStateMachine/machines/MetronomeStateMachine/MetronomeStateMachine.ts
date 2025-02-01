@@ -82,6 +82,5 @@ export const MetronomeStateMachine = setup<
 		tempoState,
 		stateMenuState,
 		patternState,
-		// patternChooseStepState,
 	},
 });
