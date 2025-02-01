@@ -31,10 +31,12 @@ export const tempoState: StateNodeConfig<
 		id: string;
 	},
 	TMetronomeAction,
+	// any,
+	// { type: string; params?: NonReducibleUnknown },
 	{ type: EMetronomeEvent; params: TMetronomeEvent },
 	string,
 	string,
-	never,
+	any,
 	EventObject,
 	MetaObject
 > = {
