@@ -1,6 +1,20 @@
 # Metronome Prototype
 
-This is a prototype for future electronics Metronome project
+This is a prototype for electronics Metronome project.  
+
+## Features
+- 4 X 7 segment displays
+- Start/Stop Button
+- Button-Knob
+  - turn 
+  - click
+  - long-click
+- Click sound
+- 3 Step Types
+  - High
+  - Low
+  - Silent
+- Customizable step pattern
 
 ## Get Started
 
@@ -15,10 +29,15 @@ npm run dev
 ## ToDo
 - [x] Timer Fix initial step
 - [x] Blink LED 
-- [ ] Remove Delay??
-- [ ] Add tempo change event
-- [ ] Strict mode triggers useEffect it SoundPlayer
+- [ ] Choose sound
+- [ ] Change pattern length
+- [x] Add tempo change event
+- [ ] Design
+- [ ] Add Credits
+- [ ] Make LongClick intuitive.
+
+## Known Issues
+
+- [x] Strict mode triggers useEffect it SoundPlayer
 - [ ] Remove all 'any'
-- [ ] lint
-  [Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence
 - [x] Timer doesn't stop on exit
