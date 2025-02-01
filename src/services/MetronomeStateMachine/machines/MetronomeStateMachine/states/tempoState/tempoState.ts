@@ -11,7 +11,12 @@ import {
 	getUpdatedTempo,
 } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/states/tempoState/tempoStateConsts";
 import { ETimerStateMachineEventType } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import { EventObject, MetaObject } from "xstate/dist/declarations/src/types";
+import {
+	ActorRefFromLogic,
+	EventObject,
+	MetaObject,
+} from "xstate/dist/declarations/src/types";
+import { TimerStateMachine } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachine";
 
 // <TContext extends MachineContext,
 // 	TEvent extends EventObject,
@@ -52,14 +57,21 @@ export const tempoState: StateNodeConfig<
 				}) => {
 					const newTempo = getUpdatedTempo(tempo, change);
 
+					if (!timerStateMachineRef) {
+						return;
+					}
+
 					enqueue.assign({ tempo: newTempo });
 					enqueue.assign({
 						display: { ...display, text: newTempo.toString() },
 					});
-					enqueue.sendTo(timerStateMachineRef, {
-						type: ETimerStateMachineEventType.SET_TEMPO,
-						tempo: newTempo,
-					});
+					enqueue.sendTo<ActorRefFromLogic<typeof TimerStateMachine>>(
+						timerStateMachineRef,
+						{
+							type: ETimerStateMachineEventType.SET_TEMPO,
+							tempo: newTempo,
+						},
+					);
 				},
 			),
 		},

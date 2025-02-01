@@ -11,10 +11,7 @@ import {
 	ITimerStateMachineContext,
 	TTimerStateMachineEvent,
 } from "@services/MetronomeStateMachine/machines/TimerStateMachine/TimerStateMachineInterfaces";
-import {
-	EMetronomeEvent,
-	TMetronomeEvent,
-} from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
+import { EMetronomeEvent } from "@services/MetronomeStateMachine/machines/MetronomeStateMachine/MetronomeStateMachineInterfaces";
 import {
 	INTERVAL_ACTOR_ID,
 	intervalCallbackActorConfig,

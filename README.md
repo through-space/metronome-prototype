@@ -36,10 +36,12 @@ npm run dev
 - [ ] Design
 - [ ] Add Credits
 - [ ] Make LongClick intuitive.
+- [ ] Save settings
+- [ ] Reset Setting
 
 ## Known Issues
 
 - [x] Strict mode triggers useEffect it SoundPlayer
 - [ ] Remove all 'any'
 - [x] Timer doesn't stop on exit
-- In pattern state: "_" and " " both for silent step
+- [ ] In pattern state: "_" and " " both for silent step
